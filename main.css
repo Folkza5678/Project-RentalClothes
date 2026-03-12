@@ -1,0 +1,212 @@
+/* ─── Reset ─── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Page ─── */
+.Main {
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════
+   HEADER
+══════════════════════════════════ */
+.SiteHeader {
+  width: 100%;
+  background: #6A8CA0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Top Bar (icons + login) ─── */
+.TopBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 40px;
+}
+
+.TopBar-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Image1 {
+  width: 54px;
+  height: 54px;
+}
+
+.Image2 {
+  width: 41px;
+  height: 41px;
+}
+
+.Rectangle8 {
+  background: white;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+
+.Login {
+  color: #6A8CA0;
+  font-size: 20px;
+  font-family: 'Hanuman', serif;
+  font-weight: 900;
+}
+
+/* ─── Hero Area ─── */
+.HeroArea {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 60px 30px;
+}
+
+.HeroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1;
+}
+
+.HeroR-top,
+.HeroC-top {
+  color: white;
+  font-size: 96px;
+  font-family: 'Headland One', serif;
+  font-weight: 400;
+  line-height: 0.85;
+}
+
+.HeroR-top { align-self: flex-end; margin-right: 12px; }
+.HeroC-top { align-self: flex-end; }
+
+.HeroSubtitle-top {
+  color: white;
+  font-size: 40px;
+  font-family: 'Hedvig Letters Serif', serif;
+  font-weight: 400;
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+.HeroImage {
+  width: 217px;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ─── Navbar ─── */
+.Navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 40px 24px;
+  flex-wrap: nowrap;
+}
+
+.NavBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 20px;
+  border: 2px solid white;
+  background: #6A8CA0;
+  color: white;
+  font-size: 18px;
+  font-family: 'Hanuman', serif;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.NavBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.NavBtn--active {
+  background: #114E72;
+}
+
+/* ══════════════════════════════════
+   BODY SECTION
+══════════════════════════════════ */
+.BodySection {
+  width: 100%;
+  position: relative;
+  background: linear-gradient(
+    0deg,
+    rgba(106, 140, 160, 0.20) 0%,
+    rgba(106, 140, 160, 0.20) 100%
+  ),
+  #D9D9D9;
+}
+
+.BodyImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Hero Text (bottom, navy) ─── */
+.HeroR-bottom,
+.HeroC-bottom {
+  position: absolute;
+  color: #114E72;
+  font-size: 96px;
+  font-family: 'Headland One', serif;
+  font-weight: 400;
+  right: 56%;
+  line-height: 0.85;
+}
+
+.HeroR-bottom { top: 14%; }
+.HeroC-bottom { top: 25%; }
+
+.HeroSubtitle-bottom {
+  position: absolute;
+  color: #114E72;
+  font-size: 40px;
+  font-family: 'Hedvig Letters Serif', serif;
+  font-weight: 400;
+  right: 42%;
+  top: 43%;
+  white-space: nowrap;
+}
+
+/* ─── Carousel Arrows ─── */
+.ArrowNext,
+.ArrowPrev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 96px;
+  font-family: 'Radley', serif;
+  font-weight: 400;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+}
+
+.ArrowNext { right: 24px; }
+.ArrowPrev { left: 24px; }
