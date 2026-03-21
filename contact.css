@@ -1,0 +1,326 @@
+/* =========================================================
+   contact.css - Contact Page
+   ========================================================= */
+
+/* -- Variables -- */
+:root {
+  --color-primary:    #114E72;
+  --color-header:     #6A8CA0;
+  --color-white:      #ffffff;
+  --color-border:     #D9D9D9;
+  --color-text-muted: #7E7E7E;
+  --font-main:        'Hanuman', serif;
+  --radius-btn:       20px;
+  --radius-sm:        8px;
+}
+
+/* -- Reset -- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+
+a   { text-decoration: none; color: inherit; }
+ul  { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* =========================================================
+   HEADER  (2 rows: top-bar + navbar)
+   ========================================================= */
+.SiteHeader {
+  width: 100%;
+  background: var(--color-header);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* -- Row 1: logo + actions -- */
+.SiteHeader-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+}
+
+.SiteHeader-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.Logo-img {
+  width: 82px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.Logo-text {
+  color: var(--color-white);
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.SiteHeader-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.Icon-faq {
+  width: 41px;
+  height: 41px;
+  object-fit: contain;
+}
+
+.BtnLogin {
+  background: var(--color-white);
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-white);
+  padding: 10px 28px;
+  cursor: pointer;
+}
+
+.BtnLogin-text {
+  color: var(--color-header);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+/* -- Row 2: navbar -- */
+.Navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 40px 18px;
+  flex-wrap: nowrap;
+}
+
+.NavBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 20px;
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-white);
+  background: var(--color-header);
+  color: var(--color-white);
+  font-size: 16px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.NavBtn:hover   { background: rgba(255,255,255,0.15); }
+.NavBtn--active { background: var(--color-primary); }
+
+/* =========================================================
+   HERO BANNER
+   ========================================================= */
+.ContactHero {
+  position: relative;
+  width: 100%;
+  height: 341px;
+  overflow: hidden;
+}
+
+.ContactHero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ContactHero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ContactHero-title {
+  color: var(--color-white);
+  font-size: 60px;
+  font-family: var(--font-main);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ContactHero-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-white);
+  font-size: 32px;
+  font-family: var(--font-main);
+  font-weight: 700;
+}
+
+.ContactHero-breadcrumb a:hover { text-decoration: underline; }
+
+/* =========================================================
+   CONTACT SECTION
+   ========================================================= */
+.ContactSection {
+  padding: 40px 90px 60px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* -- Left column: info -- */
+.ContactInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+}
+
+/* Hours & parking block */
+
+.ContactInfo-label {
+  color: var(--color-text-muted);
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.ContactInfo-text {
+  color: var(--color-text-muted);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.ContactInfo-text strong {
+  font-weight: 700;
+}
+
+/* Phone row */
+.ContactInfo-phone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ContactInfo-phone-icon {
+  width: 30px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ContactInfo-phone-number {
+  color: var(--color-text-muted);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Line button */
+.BtnLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 168px;
+  height: 39px;
+  padding: 0 16px;
+  background: #03C51C;
+  box-shadow: 0 4px 4px #67D25E;
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.BtnLine:hover { opacity: 0.85; }
+
+.BtnLine-icon {
+  width: 28px;
+  height: 23px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.BtnLine-text {
+  color: var(--color-white);
+  font-size: 20px;
+  font-family: var(--font-main);
+  font-weight: 700;
+}
+
+/* Divider */
+.ContactInfo-divider {
+  width: 28px;
+  border: none;
+  border-left: 2px solid var(--color-border);
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* -- Right column: map -- */
+.ContactMap {
+  flex: 0 0 463px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ContactMap-img {
+  width: 100%;
+  height: 351px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+.BtnMapDownload {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 124px;
+  height: 33px;
+  padding: 0 12px;
+  background: #FF0000;
+  box-shadow: 0 4px 4px rgba(255, 0, 0, 0.50);
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.BtnMapDownload:hover { opacity: 0.85; }
+
+.BtnMapDownload-icon {
+  width: 21px;
+  height: 19px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.BtnMapDownload-text {
+  color: var(--color-white);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
