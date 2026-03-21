@@ -320,7 +320,7 @@ img { display: block; max-width: 100%; }
 
 .BtnMapDownload-text {
   color: var(--color-white);
-  font-size: 12px;
+  font-size: 17px;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
