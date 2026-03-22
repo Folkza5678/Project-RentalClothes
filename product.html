@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rental Clothes – Product Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="template/rental.css" />
+  <link rel="stylesheet" href="template/rent.css" />
+</head>
+<body>
+<div class="Page">
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header class="SiteHeader">
+    <div class="SiteHeader-top">
+      <a href="main.html" class="SiteHeader-logo">
+        <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
+        <span class="Logo-text">RENTAL CLOTHES</span>
+      </a>
+      <div class="SiteHeader-actions">
+        <a href="faq.html" class="Icon-faq-link" title="คำถามที่พบบ่อย">
+          <img class="Icon-faq" src="images/faq.png" alt="FAQ icon" />
+        </a>
+        <a href="login.html" class="BtnLogin">
+          <span class="BtnLogin-text">LOGIN</span>
+        </a>
+      </div>
+    </div>
+    <nav class="Navbar">
+      <a href="main.html"      class="NavBtn">HOME</a>
+      <a href="rental.html"    class="NavBtn NavBtn--active">RENTAL PRODUCTS</a>
+      <a href="howtorent.html" class="NavBtn">HOW TO RENT</a>
+      <a href="review.html"    class="NavBtn">REVIEW</a>
+      <a href="article.html"   class="NavBtn">ARTICLE</a>
+      <a href="contact.html"   class="NavBtn">CONTACT</a>
+      <a href="gallery.html"   class="NavBtn">GALLERY</a>
+    </nav>
+  </header>
+
+  <!-- ══════════════ MAIN CONTENT ══════════════ -->
+  <main class="ProductDetailPage">
+
+    <!-- Product Layout -->
+    <div class="ProductDetail">
+
+      <!-- ── LEFT: Images ── -->
+      <div class="ProductDetail-gallery">
+
+        <!-- Main image -->
+        <div class="Gallery-main">
+          <img id="mainImage" src="images/product1.jpg" alt="Product main image" />
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="Gallery-thumbs">
+          <img class="Gallery-thumb active" id="thumb1" src="images/product1.jpg" alt="thumb 1" onclick="changeImage(this)" />
+          <img class="Gallery-thumb" id="thumb2" src="images/product2.jpg" alt="thumb 2" onclick="changeImage(this)" />
+          <img class="Gallery-thumb" id="thumb3" src="images/product3.jpg" alt="thumb 3" onclick="changeImage(this)" />
+          <img class="Gallery-thumb" id="thumb4" src="images/product4.jpg" alt="thumb 4" onclick="changeImage(this)" />
+          <img class="Gallery-thumb" id="thumb5" src="images/product5.jpg" alt="thumb 5" onclick="changeImage(this)" />
+        </div>
+
+      </div>
+
+      <!-- ── RIGHT: Info ── -->
+      <div class="ProductDetail-info">
+
+        <!-- Title -->
+        <h1 class="PD-title" id="pdTitle">
+          Contemporary Thai Dress: White Lace Top &amp; Red Gold-Thread Sarong
+        </h1>
+
+        <!-- Rating -->
+        <div class="PD-rating">
+          <span class="PD-stars">★★★★★</span>
+          <span class="PD-rating-score">4.9</span>
+          <span class="PD-divider">|</span>
+          <span class="PD-reviews">242 รีวิว</span>
+        </div>
+
+        <!-- Price -->
+        <div class="PD-price-block">
+          <span class="PD-price" id="pdPrice">4,500 ฿</span>
+          <span class="PD-price-original">6,000 ฿</span>
+          <span class="PD-discount">-25%</span>
+        </div>
+
+        <hr class="PD-divider-line" />
+
+        <!-- Size -->
+        <div class="PD-option-group">
+          <span class="PD-option-label">ขนาด</span>
+          <div class="PD-option-btns" id="sizeGroup">
+            <button class="PD-opt-btn active" onclick="selectOption(this, 'sizeGroup')">S</button>
+            <button class="PD-opt-btn" onclick="selectOption(this, 'sizeGroup')">M</button>
+            <button class="PD-opt-btn" onclick="selectOption(this, 'sizeGroup')">L</button>
+            <button class="PD-opt-btn" onclick="selectOption(this, 'sizeGroup')">XL</button>
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="PD-option-group">
+          <span class="PD-option-label">ระยะเวลาเช่า</span>
+          <div class="PD-option-btns" id="durationGroup">
+            <button class="PD-opt-btn active" onclick="selectOption(this, 'durationGroup')">1 วัน</button>
+            <button class="PD-opt-btn" onclick="selectOption(this, 'durationGroup')">3 วัน</button>
+            <button class="PD-opt-btn" onclick="selectOption(this, 'durationGroup')">7 วัน</button>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="PD-option-group">
+          <span class="PD-option-label">จำนวน</span>
+          <div class="PD-qty">
+            <button class="PD-qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="PD-qty-val" id="qtyVal">1</span>
+            <button class="PD-qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <hr class="PD-divider-line" />
+
+        <!-- Delivery info -->
+        <div class="PD-info-row">
+          <span class="PD-info-label">การจัดส่ง</span>
+          <span class="PD-info-value">จัดส่งฟรี · รับภายใน 1–3 วันทำการ</span>
+        </div>
+        <div class="PD-info-row">
+          <span class="PD-info-label">ข้อปกิการันดี</span>
+          <span class="PD-info-value">ทำความสะอาดก่อนส่ง · ตรวจสอบคุณภาพทุกชิ้น</span>
+        </div>
+
+        <hr class="PD-divider-line" />
+
+        <!-- Action buttons -->
+        <div class="PD-actions">
+          <button class="PD-btn-cart">🛒 เพิ่มในรายการ</button>
+          <button class="PD-btn-rent">เช่าเลย</button>
+        </div>
+
+      </div><!-- /ProductDetail-info -->
+
+    </div><!-- /ProductDetail -->
+
+  </main>
+
+</div><!-- /Page -->
+
+<script>
+  /* ── อ่าน URL parameter ── */
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const name  = params.get('name');
+    const price = params.get('price');
+    const img   = params.get('img');
+
+    if (name) {
+      const decoded = decodeURIComponent(name);
+      document.getElementById('pdTitle').textContent = decoded;
+      document.title = 'Rental Clothes – ' + decoded;
+    }
+
+    if (price) {
+      const num = Number(price).toLocaleString('th-TH');
+      document.getElementById('pdPrice').textContent = num + ' ฿';
+    }
+
+    if (img) {
+      const src = decodeURIComponent(img);
+      document.getElementById('mainImage').src = src;
+      document.getElementById('thumb1').src    = src;
+    }
+  })();
+
+  /* ── Gallery thumbnail ── */
+  function changeImage(el) {
+    document.getElementById('mainImage').src = el.src;
+    document.querySelectorAll('.Gallery-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* ── Size / Duration toggle ── */
+  function selectOption(el, groupId) {
+    document.querySelectorAll('#' + groupId + ' .PD-opt-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* ── Quantity ── */
+  function changeQty(delta) {
+    const el  = document.getElementById('qtyVal');
+    const val = Math.max(1, parseInt(el.textContent) + delta);
+    el.textContent = val;
+  }
+</script>
+</body>
+</html>

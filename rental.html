@@ -14,15 +14,13 @@
 
   <!-- ══════════════ HEADER ══════════════ -->
   <header class="SiteHeader">
-
-    <!-- แถวบน: logo + actions -->
     <div class="SiteHeader-top">
-  <a href="main.html" class="SiteHeader-logo">
-    <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
-    <span class="Logo-text">RENTAL CLOTHES</span>
-  </a>
+      <a href="main.html" class="SiteHeader-logo">
+        <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
+        <span class="Logo-text">RENTAL CLOTHES</span>
+      </a>
       <div class="SiteHeader-actions">
-        <a href="faq.html" class="Icon-faq-link Icon-faq-link--active" title="คำถามที่พบบ่อย">
+        <a href="faq.html" class="Icon-faq-link" title="คำถามที่พบบ่อย">
           <img class="Icon-faq" src="images/faq.png" alt="FAQ icon" />
         </a>
         <a href="login.html" class="BtnLogin">
@@ -30,18 +28,15 @@
         </a>
       </div>
     </div>
-
-    <!-- แถวล่าง: navbar -->
     <nav class="Navbar">
-      <a href="main.html"   class="NavBtn">HOME</a>
-      <a href="rental.html"  class="NavBtn NavBtn--active">RENTAL PRODUCTS</a>
+      <a href="main.html"      class="NavBtn">HOME</a>
+      <a href="rental.html"    class="NavBtn NavBtn--active">RENTAL PRODUCTS</a>
       <a href="howtorent.html" class="NavBtn">HOW TO RENT</a>
-      <a href="review.html"            class="NavBtn">REVIEW</a>
-      <a href="article.html"            class="NavBtn">ARTICLE</a>
-      <a href="contact.html"            class="NavBtn">CONTACT</a>
-      <a href="gallery.html"            class="NavBtn">GALLERY</a>
+      <a href="review.html"    class="NavBtn">REVIEW</a>
+      <a href="article.html"   class="NavBtn">ARTICLE</a>
+      <a href="contact.html"   class="NavBtn">CONTACT</a>
+      <a href="gallery.html"   class="NavBtn">GALLERY</a>
     </nav>
-
   </header>
 
   <!-- ══════════════ MAIN CONTENT ══════════════ -->
@@ -49,54 +44,49 @@
 
     <!-- ── Sidebar ── -->
     <aside class="Sidebar">
-
-      <!-- TYPE filter -->
       <div class="Filter-section">
         <h3 class="Filter-title">TYPE</h3>
         <div class="Filter-search">
           <input type="text" placeholder="Search groups..." class="Filter-input" />
         </div>
         <ul class="Filter-list">
-          <li class="Filter-item"><input type="checkbox" id="type-shirt"   /><label for="type-shirt">Shirt</label></li>
-          <li class="Filter-item"><input type="checkbox" id="type-wedding" /><label for="type-wedding">Wedding dress</label></li>
-          <li class="Filter-item"><input type="checkbox" id="type-cosplay" /><label for="type-cosplay">Cosplay Costume</label></li>
-          <li class="Filter-item"><input type="checkbox" id="type-sweater" /><label for="type-sweater">Sweater</label></li>
-          <li class="Filter-item"><input type="checkbox" id="type-academic"/><label for="type-academic">Academic gown</label></li>
-          <li class="Filter-item"><input type="checkbox" id="type-thai"    /><label for="type-thai">Thai costume</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-shirt"    /><label for="type-shirt">Shirt</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-wedding"  /><label for="type-wedding">Wedding dress</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-cosplay"  /><label for="type-cosplay">Cosplay Costume</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-sweater"  /><label for="type-sweater">Sweater</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-academic" /><label for="type-academic">Academic gown</label></li>
+          <li class="Filter-item"><input type="checkbox" id="type-thai"     /><label for="type-thai">Thai costume</label></li>
         </ul>
       </div>
 
       <hr class="Filter-divider" />
 
-      <!-- BRAND filter -->
       <div class="Filter-section">
         <h3 class="Filter-title">BRAND</h3>
         <div class="Filter-search">
           <input type="text" placeholder="Search brands..." class="Filter-input" />
         </div>
         <ul class="Filter-list">
-          <li class="Filter-item"><input type="checkbox" id="brand-columbia"/><label for="brand-columbia">Columbia</label></li>
-          <li class="Filter-item"><input type="checkbox" id="brand-adidas"  /><label for="brand-adidas">Adidas</label></li>
-          <li class="Filter-item"><input type="checkbox" id="brand-nike"    /><label for="brand-nike">Nike</label></li>
-          <li class="Filter-item"><input type="checkbox" id="brand-gucci"   /><label for="brand-gucci">Gucci</label></li>
-          <li class="Filter-item"><input type="checkbox" id="brand-dior"    /><label for="brand-dior">Dior</label></li>
-          <li class="Filter-item"><input type="checkbox" id="brand-puma"    /><label for="brand-puma">Puma</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-columbia" /><label for="brand-columbia">Columbia</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-adidas"   /><label for="brand-adidas">Adidas</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-nike"     /><label for="brand-nike">Nike</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-gucci"    /><label for="brand-gucci">Gucci</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-dior"     /><label for="brand-dior">Dior</label></li>
+          <li class="Filter-item"><input type="checkbox" id="brand-puma"     /><label for="brand-puma">Puma</label></li>
         </ul>
       </div>
 
       <hr class="Filter-divider" />
 
-      <!-- SEX filter -->
       <div class="Filter-section">
         <h3 class="Filter-title">SEX</h3>
         <div class="Filter-sex-grid">
-          <div class="Filter-item"><input type="checkbox" id="sex-unisex"  /><label for="sex-unisex">Unisex</label></div>
-          <div class="Filter-item"><input type="checkbox" id="sex-male"    /><label for="sex-male">Male</label></div>
-          <div class="Filter-item"><input type="checkbox" id="sex-children"/><label for="sex-children">Children</label></div>
-          <div class="Filter-item"><input type="checkbox" id="sex-female"  /><label for="sex-female">Female</label></div>
+          <div class="Filter-item"><input type="checkbox" id="sex-unisex"   /><label for="sex-unisex">Unisex</label></div>
+          <div class="Filter-item"><input type="checkbox" id="sex-male"     /><label for="sex-male">Male</label></div>
+          <div class="Filter-item"><input type="checkbox" id="sex-children" /><label for="sex-children">Children</label></div>
+          <div class="Filter-item"><input type="checkbox" id="sex-female"   /><label for="sex-female">Female</label></div>
         </div>
       </div>
-
     </aside>
 
     <!-- ── Product Area ── -->
@@ -109,7 +99,7 @@
           <input type="text" placeholder="Search" class="Toolbar-input" />
         </div>
         <div class="Toolbar-right">
-           <div class="Toolbar-sort" id="sortBtn">
+          <div class="Toolbar-sort" id="sortBtn">
             <span class="Toolbar-sort-label" id="sortLabel">Sort</span>
             <span class="Toolbar-sort-arrow">∨</span>
             <ul class="Sort-dropdown" id="sortDropdown">
@@ -119,61 +109,94 @@
               <li class="Sort-option" data-sort="price-desc">ราคา สูง-ต่ำ</li>
             </ul>
           </div>
-          <span class="Toolbar-view-btn1" >1</span>
+          <span class="Toolbar-view-btn1">1</span>
           <a href="rental2.html" class="Toolbar-view-btn">></a>
         </div>
       </div>
 
       <!-- Product Grid -->
-       <div class="ProductGrid" id="productGrid">
-        <div class="ProductCard" data-name="Contemporary Thai Dress: White Lace Top & Red Gold-Thread Sarong" data-price="4500">
-          <img src="images/product1.jpg" alt="Contemporary Thai Dress: White Lace Top & Red Gold-Thread Sarong" />
-          <p class="ProductCard-name">Contemporary Thai Dress: White Lace Top & Red Gold-Thread Sarong</p>
-           <p class="ProductCard-price">4,500 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="Wedding Dress" data-price="5000">
-          <img src="images/product2.jpg" alt="=Wedding Dress" />
+      <div class="ProductGrid" id="productGrid">
+
+        <a class="ProductCard"
+           href="product.html?id=1&name=Contemporary+Thai+Dress%3A+White+Lace+Top+%26+Red+Gold-Thread+Sarong&price=4500&img=images/product1.jpg"
+           data-name="Contemporary Thai Dress: White Lace Top & Red Gold-Thread Sarong"
+           data-price="4500">
+          <img src="images/product1.jpg" alt="Contemporary Thai Dress" />
+          <p class="ProductCard-name">Contemporary Thai Dress: White Lace Top &amp; Red Gold-Thread Sarong</p>
+          <p class="ProductCard-price">4,500 ฿</p>
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=2&name=Wedding+Dress&price=5000&img=images/product2.jpg"
+           data-name="Wedding Dress"
+           data-price="5000">
+          <img src="images/product2.jpg" alt="Wedding Dress" />
           <p class="ProductCard-name">Wedding Dress</p>
-           <p class="ProductCard-price">5,000 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="Maleficent Costume: High-Collar Satin Gown with Iconic Horns" data-price="500">
-          <img src="images/product3.jpg" alt="=Maleficent Costume: High-Collar Satin Gown with Iconic Horns" />
+          <p class="ProductCard-price">5,000 ฿</p>
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=3&name=Maleficent+Costume%3A+High-Collar+Satin+Gown+with+Iconic+Horns&price=500&img=images/product3.jpg"
+           data-name="Maleficent Costume: High-Collar Satin Gown with Iconic Horns"
+           data-price="500">
+          <img src="images/product3.jpg" alt="Maleficent Costume" />
           <p class="ProductCard-name">Maleficent Costume: High-Collar Satin Gown with Iconic Horns</p>
-           <p class="ProductCard-price">500 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="Jack & Jones PREMIUM JPRBLUSEAN CABLE ROLL NECK - Jumper - silver lining" data-price="1059">
-          <img src="images/product4.jpg" alt="Jack & Jones PREMIUM JPRBLUSEAN CABLE ROLL NECK - Jumper - silver lining" />
-          <p class="ProductCard-name">Jack & Jones PREMIUM JPRBLUSEAN CABLE ROLL NECK - Jumper - silver</p>
+          <p class="ProductCard-price">500 ฿</p>
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=4&name=Jack+%26+Jones+PREMIUM+JPRBLUSEAN+CABLE+ROLL+NECK&price=1059&img=images/product4.jpg"
+           data-name="Jack & Jones PREMIUM JPRBLUSEAN CABLE ROLL NECK - Jumper - silver lining"
+           data-price="1059">
+          <img src="images/product4.jpg" alt="Jack & Jones Jumper" />
+          <p class="ProductCard-name">Jack &amp; Jones PREMIUM JPRBLUSEAN CABLE ROLL NECK - Jumper - silver</p>
           <p class="ProductCard-price">1,059 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="King Mongkut's Institute Traditional Robes in Institutional Scarlet" data-price="1200">
-          <img src="images/product5.jpg" alt="King Mongkut's Institute Traditional Robes in Institutional Scarlet" />
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=5&name=King+Mongkut%27s+Institute+Traditional+Robes&price=1200&img=images/product5.jpg"
+           data-name="King Mongkut's Institute Traditional Robes in Institutional Scarlet"
+           data-price="1200">
+          <img src="images/product5.jpg" alt="Academic Robes" />
           <p class="ProductCard-name">King Mongkut's Institute Traditional Robes in Institutional Scarlet</p>
           <p class="ProductCard-price">1,200 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="Holkham Classic Shirt" data-price="990">
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=6&name=Holkham+Classic+Shirt&price=990&img=images/product6.jpg"
+           data-name="Holkham Classic Shirt"
+           data-price="990">
           <img src="images/product6.jpg" alt="Holkham Classic Shirt" />
           <p class="ProductCard-name">Holkham Classic Shirt</p>
           <p class="ProductCard-price">990 ฿</p>
-        </div>
-       <div class="ProductCard" data-name="Wedding Suit / Tuxedo" data-price="4990">
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=7&name=Wedding+Suit+%2F+Tuxedo&price=4990&img=images/product7.png"
+           data-name="Wedding Suit / Tuxedo"
+           data-price="4990">
           <img src="images/product7.png" alt="Wedding Suit / Tuxedo" />
           <p class="ProductCard-name">Wedding Suit / Tuxedo</p>
           <p class="ProductCard-price">4,990 ฿</p>
-        </div>
-        <div class="ProductCard" data-name="PROFUOMO THE LUXURY BASIC - Jumper - grey blue" data-price="1090">
-          <img src="images/product8.jpg" alt="PROFUOMO THE LUXURY BASIC - Jumper - grey blue" />
+        </a>
+
+        <a class="ProductCard"
+           href="product.html?id=8&name=PROFUOMO+THE+LUXURY+BASIC+-+Jumper+-+grey+blue&price=1090&img=images/product8.jpg"
+           data-name="PROFUOMO THE LUXURY BASIC - Jumper - grey blue"
+           data-price="1090">
+          <img src="images/product8.jpg" alt="PROFUOMO Jumper" />
           <p class="ProductCard-name">PROFUOMO THE LUXURY BASIC - Jumper - grey blue</p>
           <p class="ProductCard-price">1,090 ฿</p>
-        </div>
-      </div>
- 
+        </a>
+
+      </div><!-- /ProductGrid -->
+
     </main>
- 
+
   </div>
- 
+
 </div>
- 
+
 <script>
 (function () {
   /* ── Sort dropdown ── */
@@ -181,65 +204,36 @@
   const sortDropdown = document.getElementById('sortDropdown');
   const sortLabel    = document.getElementById('sortLabel');
   const grid         = document.getElementById('productGrid');
- 
-  // เปิด/ปิด dropdown
+
   sortBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     sortDropdown.classList.toggle('open');
   });
- 
-  // ปิดเมื่อคลิกที่อื่น
+
   document.addEventListener('click', function () {
     sortDropdown.classList.remove('open');
   });
- 
-  // เลือก option
+
   sortDropdown.querySelectorAll('.Sort-option').forEach(function (opt) {
     opt.addEventListener('click', function (e) {
       e.stopPropagation();
- 
-      // อัปเดต label
       sortLabel.textContent = opt.textContent;
       sortDropdown.classList.remove('open');
- 
-      // เรียงลำดับ
+
       const cards = Array.from(grid.querySelectorAll('.ProductCard'));
       const type  = opt.dataset.sort;
- 
+
       cards.sort(function (a, b) {
-        if (type === 'az') {
-          return a.dataset.name.localeCompare(b.dataset.name);
-        }
-        if (type === 'za') {
-          return b.dataset.name.localeCompare(a.dataset.name);
-        }
-        if (type === 'price-asc') {
-          return Number(a.dataset.price) - Number(b.dataset.price);
-        }
-        if (type === 'price-desc') {
-          return Number(b.dataset.price) - Number(a.dataset.price);
-        }
+        if (type === 'az')         return a.dataset.name.localeCompare(b.dataset.name);
+        if (type === 'za')         return b.dataset.name.localeCompare(a.dataset.name);
+        if (type === 'price-asc')  return Number(a.dataset.price) - Number(b.dataset.price);
+        if (type === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
         return 0;
       });
- 
-      // render ใหม่
+
       cards.forEach(function (card) { grid.appendChild(card); });
     });
   });
- 
-  /* ── Grid / List view toggle ── */
-  document.getElementById('btn-grid').addEventListener('click', function () {
-    grid.classList.remove('list-view');
-    this.classList.add('active');
-    document.getElementById('btn-list').classList.remove('active');
-  });
- 
-  document.getElementById('btn-list').addEventListener('click', function () {
-    grid.classList.add('list-view');
-    this.classList.add('active');
-    document.getElementById('btn-grid').classList.remove('active');
-  });
- 
 })();
 </script>
 </body>
