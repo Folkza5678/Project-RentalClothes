@@ -1,0 +1,126 @@
+/* =========================================================
+   review.css  –  Review Page  (ใช้ร่วมกับ rental.css)
+   ========================================================= */
+
+/* ── Hero Banner ── */
+.ReviewHero {
+  position: relative;
+  width: 100%;
+  height: 359px;
+  overflow: hidden;
+  background: #6A8CA0;   /* fallback หากรูปยังไม่โหลด */
+}
+
+.ReviewHero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* overlay สีดำโปร่งแสงเพื่อให้ข้อความอ่านได้ */
+.ReviewHero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ReviewHero-title {
+  color: #ffffff;
+  font-family: 'Hanuman', serif;
+  font-size: 45px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.ReviewHero-breadcrumb {
+  color: #ffffff;
+  font-family: 'Hanuman', serif;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.ReviewHero-breadcrumb a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.ReviewHero-breadcrumb a:hover { opacity: 0.75; }
+
+/* ── Page wrapper ── */
+.ReviewPage {
+  padding: 48px 40px 80px;
+}
+
+/* ── Grid: 4 columns ── */
+.ReviewGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 24px;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+/* ── Card ── */
+.ReviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.ReviewCard-img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #eee;
+}
+
+/* ชื่อ / ข้อความรีวิวจากลูกค้า */
+.ReviewCard-headline {
+  font-family: 'Hanuman', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.77);
+  text-align: center;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* คำตอบจากร้าน */
+.ReviewCard-reply {
+  font-family: 'Hanuman', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #7E7E7E;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .ReviewGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ReviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ReviewHero-title    { font-size: 32px; }
+  .ReviewHero-breadcrumb { font-size: 18px; }
+}
+
