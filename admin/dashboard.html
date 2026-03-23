@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="template/dashboard.css" />
+</head>
+<body>
+
+<!-- ══════════════ TOP BAR ══════════════ -->
+<header class="TopBar">
+  <a href="main.html" class="TopBar-logo">
+    <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
+    <span class="Logo-text">RENTAL CLOTHES</span>
+  </a>
+  <div class="TopBar-actions">
+    <a href="faq.html" class="BtnFaq" title="คำถามที่พบบ่อย">
+      <span class="BtnFaq-icon">?</span>
+    </a>
+    <a href="login.html" class="BtnLogin">
+      <span class="BtnLogin-text">LOGIN</span>
+    </a>
+  </div>
+</header>
+
+<!-- ══════════════ LAYOUT ══════════════ -->
+<div class="Layout">
+
+  <!-- ── Sidebar (Vertical Navbar) ── -->
+  <aside class="Sidebar">
+
+    <!-- Admin profile -->
+    <div class="Sidebar-profile">
+      <div class="Profile-avatar">👤</div>
+      <div class="Profile-info">
+        <div class="Profile-name">NAME ADMIN</div>
+        <div class="Profile-role">PRODUCTION SUPPORT</div>
+      </div>
+    </div>
+
+    <!-- Filter dropdowns -->
+    <div class="Sidebar-filters">
+      <div class="Filter-label">CATEGORY</div>
+      <select class="Filter-select">
+        <option value="">Select type...</option>
+        <option value="shirt">Shirt</option>
+        <option value="wedding">Wedding dress</option>
+        <option value="cosplay">Cosplay Costume</option>
+        <option value="sweater">Sweater</option>
+        <option value="academic">Academic gown</option>
+        <option value="thai">Thai costume</option>
+      </select>
+
+      <div class="Filter-label">OCCASION</div>
+      <select class="Filter-select">
+        <option value="">Select occasion...</option>
+        <option value="wedding">Wedding</option>
+        <option value="party">Party</option>
+        <option value="ceremony">Ceremony</option>
+        <option value="casual">Casual</option>
+      </select>
+    </div>
+
+    <!-- Nav items -->
+    <nav class="Sidebar-nav">
+      <a href="dashboard.html" class="NavItem NavItem--active">
+        <span class="NavItem-icon"></span>
+        DASHBOARD
+      </a>
+      <a href="productmanagement.html" class="NavItem">
+        <span class="NavItem-icon"></span>
+        PRODUCTS
+      </a>
+      <a href="admin-booking.html" class="NavItem">
+        <span class="NavItem-icon"></span>
+        BOOKING
+      </a>
+      <a href="admin-return.html" class="NavItem">
+        <span class="NavItem-icon"></span>
+        RETURN
+      </a>
+      <a href="admin-customers.html" class="NavItem">
+        <span class="NavItem-icon"></span>
+        CUSTOMERS
+      </a>
+      <a href="admin-reports.html" class="NavItem NavItem--last">
+        <span class="NavItem-icon"></span>
+        REPORTS
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <main class="MainContent">
+
+    <h1 class="PageTitle">DASHBOARD</h1>
+
+    <!-- Stat Cards -->
+    <div class="StatRow">
+      <div class="StatCard">
+        <div class="StatCard-label">Total Products</div>
+        <div class="StatCard-value">248</div>
+        <div class="StatCard-sub">↑ 12 this month</div>
+      </div>
+      <div class="StatCard">
+        <div class="StatCard-label">Active Bookings</div>
+        <div class="StatCard-value">34</div>
+        <div class="StatCard-sub">↑ 5 today</div>
+      </div>
+      <div class="StatCard">
+        <div class="StatCard-label">Pending Returns</div>
+        <div class="StatCard-value">9</div>
+        <div class="StatCard-sub">2 overdue</div>
+      </div>
+      <div class="StatCard">
+        <div class="StatCard-label">Total Customers</div>
+        <div class="StatCard-value">1,302</div>
+        <div class="StatCard-sub">↑ 28 this month</div>
+      </div>
+    </div>
+
+    <!-- Recent Bookings Table -->
+    <div class="TableCard">
+      <div class="TableCard-header">
+        <span class="TableCard-title">Recent Bookings</span>
+        <button class="TableCard-action">View All</button>
+      </div>
+      <table class="DataTable">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Rental Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#BK-0091</td>
+            <td>สมหญิง รักดี</td>
+            <td>Wedding Dress</td>
+            <td>20 มี.ค. 2568</td>
+            <td>23 มี.ค. 2568</td>
+            <td><span class="Badge Badge--active">Active</span></td>
+          </tr>
+          <tr>
+            <td>#BK-0090</td>
+            <td>พิมพ์ใจ สวยงาม</td>
+            <td>Thai Costume</td>
+            <td>19 มี.ค. 2568</td>
+            <td>22 มี.ค. 2568</td>
+            <td><span class="Badge Badge--pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td>#BK-0089</td>
+            <td>อนันต์ มีสุข</td>
+            <td>Wedding Suit / Tuxedo</td>
+            <td>18 มี.ค. 2568</td>
+            <td>21 มี.ค. 2568</td>
+            <td><span class="Badge Badge--returned">Returned</span></td>
+          </tr>
+          <tr>
+            <td>#BK-0088</td>
+            <td>วารี สดใส</td>
+            <td>Maleficent Costume</td>
+            <td>15 มี.ค. 2568</td>
+            <td>18 มี.ค. 2568</td>
+            <td><span class="Badge Badge--overdue">Overdue</span></td>
+          </tr>
+          <tr>
+            <td>#BK-0087</td>
+            <td>ธนกฤต ใจดี</td>
+            <td>Academic Robe</td>
+            <td>14 มี.ค. 2568</td>
+            <td>16 มี.ค. 2568</td>
+            <td><span class="Badge Badge--returned">Returned</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="BottomRow">
+
+      <!-- Popular Products -->
+      <div class="TableCard">
+        <div class="TableCard-header">
+          <span class="TableCard-title">Popular Products</span>
+          <button class="TableCard-action">Manage</button>
+        </div>
+        <div class="ProductList">
+          <div class="ProductItem">
+            <img class="ProductItem-thumb" src="images/product2.jpg" alt="Wedding Dress" />
+            <div class="ProductItem-info">
+              <div class="ProductItem-name">Wedding Dress</div>
+              <div class="ProductItem-meta">Rented 42 times</div>
+            </div>
+            <div class="ProductItem-price">5,000 ฿</div>
+          </div>
+          <div class="ProductItem">
+            <img class="ProductItem-thumb" src="images/product1.jpg" alt="Thai Dress" />
+            <div class="ProductItem-info">
+              <div class="ProductItem-name">Contemporary Thai Dress</div>
+              <div class="ProductItem-meta">Rented 38 times</div>
+            </div>
+            <div class="ProductItem-price">4,500 ฿</div>
+          </div>
+          <div class="ProductItem">
+            <img class="ProductItem-thumb" src="images/product7.png" alt="Tuxedo" />
+            <div class="ProductItem-info">
+              <div class="ProductItem-name">Wedding Suit / Tuxedo</div>
+              <div class="ProductItem-meta">Rented 29 times</div>
+            </div>
+            <div class="ProductItem-price">4,990 ฿</div>
+          </div>
+          <div class="ProductItem">
+            <img class="ProductItem-thumb" src="images/product3.jpg" alt="Maleficent" />
+            <div class="ProductItem-info">
+              <div class="ProductItem-name">Maleficent Costume</div>
+              <div class="ProductItem-meta">Rented 21 times</div>
+            </div>
+            <div class="ProductItem-price">500 ฿</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Customers -->
+      <div class="TableCard">
+        <div class="TableCard-header">
+          <span class="TableCard-title">Recent Customers</span>
+          <button class="TableCard-action">View All</button>
+        </div>
+        <table class="DataTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Bookings</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>สมหญิง รักดี</td>
+              <td>3</td>
+              <td>มี.ค. 2568</td>
+            </tr>
+            <tr>
+              <td>พิมพ์ใจ สวยงาม</td>
+              <td>1</td>
+              <td>มี.ค. 2568</td>
+            </tr>
+            <tr>
+              <td>อนันต์ มีสุข</td>
+              <td>5</td>
+              <td>ก.พ. 2568</td>
+            </tr>
+            <tr>
+              <td>วารี สดใส</td>
+              <td>2</td>
+              <td>ก.พ. 2568</td>
+            </tr>
+            <tr>
+              <td>ธนกฤต ใจดี</td>
+              <td>4</td>
+              <td>ม.ค. 2568</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /BottomRow -->
+
+  </main>
+
+</div><!-- /Layout -->
+
+</body>
+</html>

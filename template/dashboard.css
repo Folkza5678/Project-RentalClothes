@@ -1,0 +1,474 @@
+/* =========================================================
+   admin.css – Admin Dashboard Page
+   ========================================================= */
+
+/* -- Variables -- */
+:root {
+  --color-primary:      #114E72;
+  --color-header:       #6A8CA0;
+  --color-sidebar:      rgba(106, 140, 160, 0.87);
+  --color-sidebar-dark: #7D9BAC;
+  --color-active:       #114E72;
+  --color-white:        #ffffff;
+  --color-border:       #D9D9D9;
+  --color-text-muted:   #7E7E7E;
+  --color-label:        #BEB9B9;
+  --font-main:          'Hanuman', serif;
+  --radius-btn:         20px;
+  --radius-sm:          10px;
+  --sidebar-width:      251px;
+  --topbar-height:      75px;
+}
+
+/* -- Reset -- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: #f0f4f7;
+  color: var(--color-primary);
+  min-height: 100vh;
+}
+
+a    { text-decoration: none; color: inherit; }
+ul   { list-style: none; }
+img  { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font-family: var(--font-main); }
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+.TopBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--topbar-height);
+  background: var(--color-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 0;
+  z-index: 200;
+}
+
+.TopBar-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: var(--sidebar-width);
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.Logo-img {
+  width: 70px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.Logo-text {
+  color: var(--color-white);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.TopBar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.BtnFaq {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 53px;
+  height: 58px;
+  background: var(--color-header);
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-white);
+  transition: background 0.2s;
+}
+
+.BtnFaq:hover { background: rgba(255,255,255,0.15); }
+
+.BtnFaq-icon {
+  font-size: 22px;
+}
+
+.BtnLogin {
+  background: var(--color-white);
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-white);
+  padding: 10px 28px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.BtnLogin:hover { opacity: 0.85; }
+
+.BtnLogin-text {
+  color: var(--color-header);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.Layout {
+  display: flex;
+  padding-top: var(--topbar-height);
+  min-height: 100vh;
+}
+
+/* =========================================================
+   SIDEBAR (Vertical Navbar)
+   ========================================================= */
+.Sidebar {
+  position: fixed;
+  top: var(--topbar-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  background: var(--color-sidebar);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+/* Admin profile block */
+.Sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 14px 10px;
+  background: var(--color-header);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.Profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-border);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--color-header);
+  background: #D9D9D9;
+}
+
+.Profile-info { flex: 1; min-width: 0; }
+
+.Profile-name {
+  color: var(--color-white);
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Profile-role {
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* Filter / dropdowns block */
+.Sidebar-filters {
+  padding: 16px 12px 12px;
+  background: var(--color-header);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.Filter-label {
+  color: var(--color-label);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.Filter-select {
+  width: 100%;
+  height: 36px;
+  border-radius: 4px;
+  border: none;
+  padding: 0 32px 0 10px;
+  font-size: 12px;
+  font-family: var(--font-main);
+  color: var(--color-text-muted);
+  background: var(--color-white);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  position: relative;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23114E72' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  margin-bottom: 12px;
+}
+
+.Filter-select:last-child { margin-bottom: 0; }
+
+/* Nav menu items */
+.Sidebar-nav { flex: 1; display: flex; flex-direction: column; }
+
+.NavItem {
+  display: flex;
+  align-items: center;
+  height: 91px;
+  padding: 0 24px;
+  color: var(--color-white);
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-white);
+  background: var(--color-sidebar-dark);
+  transition: background 0.2s, opacity 0.2s;
+  text-decoration: none;
+  gap: 14px;
+  user-select: none;
+}
+
+.NavItem:first-child { border-top: 1px solid rgba(255,255,255,0.4); }
+
+.NavItem:hover { background: rgba(17,78,114,0.35); }
+
+.NavItem--active {
+  background: var(--color-active) !important;
+}
+
+.NavItem-icon { font-size: 20px; opacity: 0.9; flex-shrink: 0; }
+
+/* last item (REPORTS) taller */
+.NavItem--last {
+  height: 95px;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+.MainContent {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 32px 36px 48px;
+  min-width: 0;
+}
+
+/* -- Page Title -- */
+.PageTitle {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin-bottom: 28px;
+  letter-spacing: 0.01em;
+}
+
+/* =========================================================
+   STAT CARDS ROW
+   ========================================================= */
+.StatRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.StatCard {
+  background: var(--color-white);
+  border-radius: 14px;
+  padding: 24px 24px 20px;
+  box-shadow: 0 2px 10px rgba(17,78,114,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 4px solid var(--color-primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.StatCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(17,78,114,0.13);
+}
+
+.StatCard-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.StatCard-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.StatCard-sub {
+  font-size: 12px;
+  color: var(--color-header);
+  font-weight: 700;
+}
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+.TableCard {
+  background: var(--color-white);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(17,78,114,0.08);
+  overflow: hidden;
+}
+
+.TableCard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.TableCard-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.TableCard-action {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-header);
+  background: none;
+  border: 1px solid var(--color-header);
+  border-radius: var(--radius-btn);
+  padding: 6px 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.TableCard-action:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.DataTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.DataTable th {
+  text-align: left;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: #f7fafc;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.DataTable td {
+  padding: 14px 24px;
+  font-size: 14px;
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+.DataTable tr:last-child td { border-bottom: none; }
+
+.DataTable tr:hover td { background: rgba(106,140,160,0.06); }
+
+.Badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.Badge--active   { background: #e0f4ea; color: #1a7a48; }
+.Badge--pending  { background: #fff4e0; color: #b07a00; }
+.Badge--returned { background: #e8f0f7; color: var(--color-primary); }
+.Badge--overdue  { background: #fdeaea; color: #c0392b; }
+
+/* =========================================================
+   BOTTOM ROW: two cards side by side
+   ========================================================= */
+.BottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+/* =========================================================
+   MINI PRODUCT LIST (inside bottom card)
+   ========================================================= */
+.ProductList { padding: 12px 0; }
+
+.ProductItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+
+.ProductItem:last-child { border-bottom: none; }
+.ProductItem:hover { background: rgba(106,140,160,0.06); }
+
+.ProductItem-thumb {
+  width: 44px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #eee;
+  flex-shrink: 0;
+}
+
+.ProductItem-info { flex: 1; min-width: 0; }
+
+.ProductItem-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ProductItem-meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.ProductItem-price {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
