@@ -138,7 +138,7 @@
         <!-- Action buttons -->
         <div class="PD-actions">
           <button class="PD-btn-cart">🛒 เพิ่มในรายการ</button>
-          <button class="PD-btn-rent">เช่าเลย</button>
+          <button class="PD-btn-rent" onclick="window.location.href='checkout.html?name=ชื่อชุดที่จะเช่า&price=1500&img=images/รูปชุด.jpg'">เช่าเลย</button>
         </div>
 
       </div><!-- /ProductDetail-info -->
@@ -194,6 +194,30 @@
     const val = Math.max(1, parseInt(el.textContent) + delta);
     el.textContent = val;
   }
+
+document.addEventListener("DOMContentLoaded", function() {
+  // 1. ดึงพารามิเตอร์ (ชื่อ, ราคา, รูป) ที่ส่งมาจากหน้า rental.html ปัจจุบัน
+  const urlParams = new URLSearchParams(window.location.search);
+  const productName = urlParams.get('name') || '';
+  const productPrice = urlParams.get('price') || '';
+  const productImg = urlParams.get('img') || '';
+
+  // 2. หาปุ่ม "เช่าเลย" (อิงจาก class="PD-btn-rent" ที่โฟล์คทำไว้)
+  const rentBtn = document.querySelector('.PD-btn-rent');
+  
+  if (rentBtn) {
+    // 3. สั่งให้ตอนคลิกปุ่ม มันส่งข้อมูลพวกนี้ไปหน้า checkout.html ต่อ
+    rentBtn.addEventListener('click', function(e) {
+      e.preventDefault(); // ป้องกันไม่ให้ปุ่มมันรีเฟรชหน้าเว็บเปล่าๆ
+      
+      // เอาข้อมูลมาต่อท้าย URL แบบปลอดภัย (encodeURIComponent ช่วยจัดการเรื่องเว้นวรรค/ภาษาไทย)
+      const checkoutUrl = `checkout.html?name=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}&img=${encodeURIComponent(productImg)}`;
+      
+      // สั่งเปลี่ยนหน้าไปที่ Checkout
+      window.location.href = checkoutUrl;
+    });
+  }
+});
 </script>
 </body>
 </html>

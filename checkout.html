@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rental Clothes – Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="template/rental.css" />
+</head>
+<body>
+<div class="Page">
+
+  <header class="SiteHeader">
+    <div class="SiteHeader-top">
+      <a href="main.html" class="SiteHeader-logo">
+        <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" onerror="this.src='https://via.placeholder.com/82x60?text=LOGO'" />
+        <span class="Logo-text">RENTAL CLOTHES</span>
+      </a>
+      <div class="SiteHeader-actions">
+        <a href="faq.html" class="Icon-faq-link" title="FAQ">
+          <img class="Icon-faq" src="images/faq.png" alt="FAQ icon" onerror="this.src='https://via.placeholder.com/41x41?text=?'" />
+        </a>
+        <a href="login.html" class="BtnLogin">
+          <span class="BtnLogin-text">LOGIN</span>
+        </a>
+      </div>
+    </div>
+    <nav class="Navbar">
+      <a href="main.html"      class="NavBtn">HOME</a>
+      <a href="rental.html"    class="NavBtn">RENTAL PRODUCTS</a>
+      <a href="howtorent.html" class="NavBtn">HOW TO RENT</a>
+      <a href="review.html"    class="NavBtn">REVIEW</a>
+      <a href="article.html"   class="NavBtn">ARTICLE</a>
+      <a href="contact.html"   class="NavBtn">CONTACT</a>
+      <a href="gallery.html"   class="NavBtn">GALLERY</a>
+    </nav>
+  </header>
+
+  <div class="Checkout-container">
+    <div class="Checkout-header">
+      <h1 class="Checkout-title">Checkout / ชำระเงิน</h1>
+      <p class="Checkout-subtitle">กรุณากรอกข้อมูลการจัดส่งและเลือกวิธีการชำระเงิน</p>
+    </div>
+
+    <div class="Checkout-grid">
+      
+      <div class="Checkout-form-section">
+        
+        <div class="Form-group-box">
+          <h2 class="Form-section-title">1. ข้อมูลผู้เช่าและการจัดส่ง</h2>
+          <div class="Input-row">
+            <div class="Input-group">
+              <label>ชื่อ - นามสกุล</label>
+              <input type="text" placeholder="ชื่อ นามสกุล" class="Checkout-input" />
+            </div>
+            <div class="Input-group">
+              <label>เบอร์โทรศัพท์</label>
+              <input type="tel" placeholder="08X-XXX-XXXX" class="Checkout-input" />
+            </div>
+          </div>
+          <div class="Input-group">
+            <label>ที่อยู่สำหรับจัดส่ง</label>
+            <textarea placeholder="บ้านเลขที่, ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" class="Checkout-input textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="Form-group-box">
+          <h2 class="Form-section-title">2. ระยะเวลาการเช่า</h2>
+          <div class="Input-row">
+            <div class="Input-group">
+              <label>วันที่ต้องการรับชุด</label>
+              <input type="date" class="Checkout-input" />
+            </div>
+            <div class="Input-group">
+              <label>วันที่คืนชุด</label>
+              <input type="date" class="Checkout-input" />
+            </div>
+          </div>
+          <p class="Note-text">* ระยะเวลาเช่ามาตรฐานคือ 3 วัน หากเกินกำหนดจะมีค่าปรับตามเงื่อนไข</p>
+        </div>
+
+        <div class="Form-group-box">
+          <h2 class="Form-section-title">3. วิธีการชำระเงิน</h2>
+          <div class="Payment-methods">
+            <label class="Payment-option">
+              <input type="radio" name="payment" value="promptpay" checked />
+              <span class="Payment-label">PromptPay / QR Code</span>
+            </label>
+            <label class="Payment-option">
+              <input type="radio" name="payment" value="creditcard" />
+              <span class="Payment-label">Credit / Debit Card</span>
+            </label>
+            <label class="Payment-option">
+              <input type="radio" name="payment" value="banktransfer" />
+              <span class="Payment-label">Bank Transfer</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="Checkout-summary-section">
+        <div class="Summary-box">
+          <h2 class="Summary-title">สรุปคำสั่งซื้อ</h2>
+          
+          <div class="Summary-product">
+            <img id="summaryImg" src="images/placeholder.jpg" alt="Product Image" class="Summary-product-img" onerror="this.src='https://via.placeholder.com/80x100?text=IMG'" />
+            <div class="Summary-product-info">
+              <div class="Summary-product-name" id="summaryName">กำลังโหลดข้อมูล...</div>
+              <div class="Summary-product-price" id="summaryPrice">0 ฿</div>
+            </div>
+          </div>
+
+          <hr class="Summary-divider" />
+
+          <div class="Summary-row">
+            <span>ค่าเช่าชุด</span>
+            <span id="summarySubtotal">0 ฿</span>
+          </div>
+          <div class="Summary-row">
+            <span>ค่าจัดส่ง (Kerry Express)</span>
+            <span>100 ฿</span>
+          </div>
+          
+          <hr class="Summary-divider" />
+
+          <div class="Summary-row total">
+            <span>ยอดชำระสุทธิ</span>
+            <span id="summaryTotal">0 ฿</span>
+          </div>
+
+          <button class="Btn-confirm" onclick="confirmOrder()">ยืนยันและชำระเงิน</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // ดึงค่าพารามิเตอร์จาก URL
+  const params = new URLSearchParams(window.location.search);
+  const productName = params.get('name') || 'โปรดเลือกสินค้าจากหน้า Rental';
+  const productPriceStr = params.get('price') || '0';
+  const productPrice = parseInt(productPriceStr, 10);
+  const productImg = params.get('img') || '';
+
+  // ค่าจัดส่งคงที่
+  const shippingFee = 100;
+
+  // อัปเดตข้อมูลบนหน้าเว็บ
+  document.getElementById('summaryName').textContent = productName;
+  document.getElementById('summaryPrice').textContent = productPrice.toLocaleString() + ' ฿';
+  document.getElementById('summarySubtotal').textContent = productPrice.toLocaleString() + ' ฿';
+  
+  if (productImg) {
+    document.getElementById('summaryImg').src = productImg;
+  }
+
+  // คำนวณยอดรวม
+  const total = productPrice > 0 ? productPrice + shippingFee : 0;
+  document.getElementById('summaryTotal').textContent = total.toLocaleString() + ' ฿';
+});
+
+function confirmOrder() {
+  // สำหรับโปรเจกต์ สามารถเปลี่ยนตรงนี้ให้ไปหน้า Success ได้เลย
+  alert("ดำเนินการสร้างคำสั่งซื้อเรียบร้อย ระบบจะพาไปยังหน้าชำระเงิน");
+  // window.location.href = "success.html"; 
+}
+</script>
+</body>
+</html>
