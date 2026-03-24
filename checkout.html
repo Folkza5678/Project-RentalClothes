@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="template/rental.css" />
-</head>
+  </head>
 <body>
 <div class="Page">
 
@@ -41,7 +41,7 @@
   <div class="Checkout-container">
     <div class="Checkout-header">
       <h1 class="Checkout-title">Checkout / ชำระเงิน</h1>
-      <p class="Checkout-subtitle">กรุณากรอกข้อมูลการจัดส่งและเลือกวิธีการชำระเงิน</p>
+      <p class="Checkout-subtitle">ตรวจสอบรายการสินค้าและเลือกวิธีการชำระเงิน</p>
     </div>
 
     <div class="Checkout-grid">
@@ -49,7 +49,7 @@
       <div class="Checkout-form-section">
         
         <div class="Form-group-box">
-          <h2 class="Form-section-title">1. ข้อมูลผู้เช่าและการจัดส่ง</h2>
+          <h2 class="Form-section-title">1. ข้อมูลผู้เช่า</h2>
           <div class="Input-row">
             <div class="Input-group">
               <label>ชื่อ - นามสกุล</label>
@@ -60,14 +60,11 @@
               <input type="tel" placeholder="08X-XXX-XXXX" class="Checkout-input" />
             </div>
           </div>
-          <div class="Input-group">
-            <label>ที่อยู่สำหรับจัดส่ง</label>
-            <textarea placeholder="บ้านเลขที่, ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" class="Checkout-input textarea"></textarea>
-          </div>
+          <p class="Note-text">* ระบบจะให้กรอกที่อยู่จัดส่งในขั้นตอนถัดไป</p>
         </div>
 
         <div class="Form-group-box">
-          <h2 class="Form-section-title">2. ระยะเวลาการเช่า</h2>
+          <h2 class="Form-section-title">2. กำหนดวันรับ-คืนชุด</h2>
           <div class="Input-row">
             <div class="Input-group">
               <label>วันที่ต้องการรับชุด</label>
@@ -78,7 +75,6 @@
               <input type="date" class="Checkout-input" />
             </div>
           </div>
-          <p class="Note-text">* ระยะเวลาเช่ามาตรฐานคือ 3 วัน หากเกินกำหนดจะมีค่าปรับตามเงื่อนไข</p>
         </div>
 
         <div class="Form-group-box">
@@ -109,6 +105,8 @@
             <img id="summaryImg" src="images/placeholder.jpg" alt="Product Image" class="Summary-product-img" onerror="this.src='https://via.placeholder.com/80x100?text=IMG'" />
             <div class="Summary-product-info">
               <div class="Summary-product-name" id="summaryName">กำลังโหลดข้อมูล...</div>
+              <div class="Summary-product-meta" id="summaryMeta" style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 6px;">
+                </div>
               <div class="Summary-product-price" id="summaryPrice">0 ฿</div>
             </div>
           </div>
@@ -116,12 +114,12 @@
           <hr class="Summary-divider" />
 
           <div class="Summary-row">
-            <span>ค่าเช่าชุด</span>
+            <span>ค่าเช่าชุด (รวมจำนวน)</span>
             <span id="summarySubtotal">0 ฿</span>
           </div>
           <div class="Summary-row">
             <span>ค่าจัดส่ง (Kerry Express)</span>
-            <span>100 ฿</span>
+            <span id="summaryShipping">100 ฿</span>
           </div>
           
           <hr class="Summary-divider" />
@@ -141,34 +139,41 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // ดึงค่าพารามิเตอร์จาก URL
+  // ดึงพารามิเตอร์ทั้งหมดจาก URL
   const params = new URLSearchParams(window.location.search);
-  const productName = params.get('name') || 'โปรดเลือกสินค้าจากหน้า Rental';
-  const productPriceStr = params.get('price') || '0';
-  const productPrice = parseInt(productPriceStr, 10);
+  const productName = params.get('name') || 'โปรดเลือกสินค้า';
+  const productPrice = parseInt(params.get('price') || '0', 10);
   const productImg = params.get('img') || '';
+  
+  // ข้อมูลใหม่ที่รับมาจากหน้า Product
+  const productSize = params.get('size') || '-';
+  const productDuration = params.get('duration') || '-';
+  const productQty = parseInt(params.get('qty') || '1', 10);
 
-  // ค่าจัดส่งคงที่
+  // ค่าจัดส่ง
   const shippingFee = 100;
 
-  // อัปเดตข้อมูลบนหน้าเว็บ
+  // คำนวณราคา
+  const subTotal = productPrice * productQty;
+  const total = subTotal > 0 ? subTotal + shippingFee : 0;
+
+  // นำข้อมูลไปแสดงผลบนหน้าเว็บ
   document.getElementById('summaryName').textContent = productName;
-  document.getElementById('summaryPrice').textContent = productPrice.toLocaleString() + ' ฿';
-  document.getElementById('summarySubtotal').textContent = productPrice.toLocaleString() + ' ฿';
+  document.getElementById('summaryMeta').textContent = `ขนาด: ${productSize} | เช่า: ${productDuration} | จำนวน: ${productQty} ชุด`;
+  document.getElementById('summaryPrice').textContent = productPrice.toLocaleString() + ' ฿ / ชุด';
+  
+  document.getElementById('summarySubtotal').textContent = subTotal.toLocaleString() + ' ฿';
+  document.getElementById('summaryTotal').textContent = total.toLocaleString() + ' ฿';
   
   if (productImg) {
     document.getElementById('summaryImg').src = productImg;
   }
-
-  // คำนวณยอดรวม
-  const total = productPrice > 0 ? productPrice + shippingFee : 0;
-  document.getElementById('summaryTotal').textContent = total.toLocaleString() + ' ฿';
 });
 
 function confirmOrder() {
-  // สำหรับโปรเจกต์ สามารถเปลี่ยนตรงนี้ให้ไปหน้า Success ได้เลย
-  alert("ดำเนินการสร้างคำสั่งซื้อเรียบร้อย ระบบจะพาไปยังหน้าชำระเงิน");
-  // window.location.href = "success.html"; 
+  alert("บันทึกข้อมูลสำเร็จ! ระบบจะพาไปหน้ากรอกที่อยู่จัดส่ง");
+  // ใส่ลิงก์ไปหน้ากรอกที่อยู่ของโฟล์คตรงนี้ได้เลย เช่น
+  // window.location.href = "address.html"; 
 }
 </script>
 </body>

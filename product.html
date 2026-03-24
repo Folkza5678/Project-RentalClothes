@@ -206,12 +206,19 @@ document.addEventListener("DOMContentLoaded", function() {
   const rentBtn = document.querySelector('.PD-btn-rent');
   
   if (rentBtn) {
-    // 3. สั่งให้ตอนคลิกปุ่ม มันส่งข้อมูลพวกนี้ไปหน้า checkout.html ต่อ
     rentBtn.addEventListener('click', function(e) {
-      e.preventDefault(); // ป้องกันไม่ให้ปุ่มมันรีเฟรชหน้าเว็บเปล่าๆ
-      
-      // เอาข้อมูลมาต่อท้าย URL แบบปลอดภัย (encodeURIComponent ช่วยจัดการเรื่องเว้นวรรค/ภาษาไทย)
-      const checkoutUrl = `checkout.html?name=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}&img=${encodeURIComponent(productImg)}`;
+      e.preventDefault(); 
+      // ดึงค่าการเลือกบนหน้าจอ
+      const activeSize = document.querySelector('#sizeGroup .active');
+      const activeDuration = document.querySelector('#durationGroup .active');
+      const qtyVal = document.getElementById('qtyVal');
+
+      const selectedSize = activeSize ? activeSize.textContent : '';
+      const selectedDuration = activeDuration ? activeDuration.textContent : '';
+      const selectedQty = qtyVal ? qtyVal.textContent : '1';
+
+      // สร้าง URL ใหม่ที่แนบข้อมูลทุกอย่างไปครบถ้วน
+      const checkoutUrl = `checkout.html?name=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}&img=${encodeURIComponent(productImg)}&size=${encodeURIComponent(selectedSize)}&duration=${encodeURIComponent(selectedDuration)}&qty=${encodeURIComponent(selectedQty)}`;
       
       // สั่งเปลี่ยนหน้าไปที่ Checkout
       window.location.href = checkoutUrl;
