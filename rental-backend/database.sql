@@ -1,82 +1,79 @@
 -- ============================================================
---  Rental Clothes — MySQL Schema
+--  Rental Clothes — SQLite Schema
 --  Run this file once to set up the database
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS rental_clothes CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE rental_clothes;
-
 -- ── Users ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
-  id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  username         VARCHAR(50)  NOT NULL UNIQUE,
-  email            VARCHAR(100) NOT NULL UNIQUE,
-  password         VARCHAR(255) NOT NULL,
-  full_name        VARCHAR(100) NOT NULL,
-  phone            VARCHAR(20),
+  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+  username         TEXT NOT NULL UNIQUE,
+  email            TEXT NOT NULL UNIQUE,
+  password         TEXT NOT NULL,
+  full_name        TEXT NOT NULL,
+  phone            TEXT,
   address          TEXT,
-  role             ENUM('customer','admin') DEFAULT 'customer',
-  rental_count     INT UNSIGNED DEFAULT 0,
-  total_spent      DECIMAL(10,2) DEFAULT 0,
+  role             TEXT DEFAULT 'customer',
+  rental_count     INTEGER DEFAULT 0,
+  total_spent      REAL DEFAULT 0,
   late_count       INT UNSIGNED DEFAULT 0,
   is_blacklisted   TINYINT(1) DEFAULT 0,
   blacklist_reason TEXT,
   created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ── Products ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS products (
-  id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  name           VARCHAR(150) NOT NULL,
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  name           TEXT NOT NULL,
   description    TEXT,
-  category       ENUM('wedding_dress','thai_costume','suit_tuxedo','cosplay','sweater','academic_robe','shirt','other') DEFAULT 'other',
-  occasion       ENUM('wedding','party','ceremony','graduation','casual','other') DEFAULT 'other',
-  price_per_day  DECIMAL(8,2) NOT NULL,
-  deposit        DECIMAL(8,2) DEFAULT 0,
-  stock          INT UNSIGNED DEFAULT 1,
-  sizes          VARCHAR(100) COMMENT 'e.g. XS,S,M,L,XL',
-  is_deleted     TINYINT(1) DEFAULT 0,
+  category       TEXT DEFAULT 'other',
+  occasion       TEXT DEFAULT 'other',
+  price_per_day  REAL NOT NULL,
+  deposit        REAL DEFAULT 0,
+  stock          INTEGER DEFAULT 1,
+  sizes          TEXT,
+  is_deleted     INTEGER DEFAULT 0,
   created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ── Product Images ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS product_images (
-  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  product_id INT UNSIGNED NOT NULL,
-  image_url  VARCHAR(255) NOT NULL,
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  product_id INTEGER NOT NULL,
+  image_url  TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- ── Bookings ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS bookings (
-  id                INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id           INT UNSIGNED NOT NULL,
-  product_id        INT UNSIGNED NOT NULL,
-  rental_start      DATE NOT NULL,
-  rental_end        DATE NOT NULL,
-  size              VARCHAR(10),
-  quantity          INT UNSIGNED DEFAULT 1,
-  total_price       DECIMAL(10,2) NOT NULL,
-  deposit_amount    DECIMAL(10,2) DEFAULT 0,
-  payment_method    ENUM('promptpay','credit_card','bank_transfer') DEFAULT 'promptpay',
-  payment_status    ENUM('pending','paid') DEFAULT 'pending',
-  payment_proof     VARCHAR(255) COMMENT 'slip filename',
+  id                INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id           INTEGER NOT NULL,
+  product_id        INTEGER NOT NULL,
+  rental_start      TEXT NOT NULL,
+  rental_end        TEXT NOT NULL,
+  size              TEXT,
+  quantity          INTEGER DEFAULT 1,
+  total_price       REAL NOT NULL,
+  deposit_amount    REAL DEFAULT 0,
+  payment_method    TEXT DEFAULT 'promptpay',
+  payment_status    TEXT DEFAULT 'pending',
+  payment_proof     TEXT,
   shipping_address  TEXT,
-  status            ENUM('waiting','packing','shipped','received','cancelled') DEFAULT 'waiting',
-  tracking_number   VARCHAR(50),
-  shipping_carrier  VARCHAR(50),
+  status            TEXT DEFAULT 'waiting',
+  tracking_number   TEXT,
+  shipping_carrier  TEXT,
   created_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id)    REFERENCES users(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 -- ── Seed: default admin account ────────────────────────────
 -- Password: admin1234  (bcrypt hash)
-INSERT IGNORE INTO users (username, email, password, full_name, phone, role)
+INSERT OR IGNORE INTO users (username, email, password, full_name, phone, role)
 VALUES (
   'admin',
   'admin@rentalclothes.com',

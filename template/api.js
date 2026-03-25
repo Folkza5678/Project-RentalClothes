@@ -1,6 +1,6 @@
 // ── ตั้งค่า Base URL ──────────────────────────────────────
 // localhost  → เปลี่ยนเป็น https://yourdomain.com/api เมื่อ deploy
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'http://localhost:3001/api';
 
 // ── Token helpers ─────────────────────────────────────────
 const Auth = {

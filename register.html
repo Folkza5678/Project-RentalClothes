@@ -72,22 +72,48 @@
 
         <form class="LoginForm" action="#" method="post">
 
-          <!-- Username / Email -->
           <div class="LoginForm-group">
             <label class="LoginForm-label" for="username">
-              Username or Email <span class="LoginForm-required">*</span>
+              Username <span class="LoginForm-required">*</span>
             </label>
             <input
               class="LoginForm-input"
               type="text"
               id="username"
               name="username"
-              placeholder="Username or Email..."
+              placeholder="Username..."
               required
             />
           </div>
 
-          <!-- Password -->
+          <div class="LoginForm-group">
+            <label class="LoginForm-label" for="email">
+              Email <span class="LoginForm-required">*</span>
+            </label>
+            <input
+              class="LoginForm-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email..."
+              required
+            />
+          </div>
+
+          <div class="LoginForm-group">
+            <label class="LoginForm-label" for="full_name">
+              Full Name <span class="LoginForm-required">*</span>
+            </label>
+            <input
+              class="LoginForm-input"
+              type="text"
+              id="full_name"
+              name="full_name"
+              placeholder="Full Name..."
+              required
+            />
+          </div>
+
           <div class="LoginForm-group">
             <label class="LoginForm-label" for="password">
               Password <span class="LoginForm-required">*</span>
@@ -102,7 +128,6 @@
             />
           </div>
 
-          <!-- Confirm Password -->
           <div class="LoginForm-group">
             <label class="LoginForm-label" for="confirm-password">
               Confirm password <span class="LoginForm-required">*</span>
@@ -117,29 +142,61 @@
             />
           </div>
 
-          <!-- Already have an account -->
           <p class="LoginForm-signup">
             Already have an account?
             <a href="login.html" class="LoginForm-signup-link">Login</a>
           </p>
 
-          <!-- Submit -->
           <button class="LoginForm-submit" type="submit">REGISTER</button>
 
-          <!-- Terms -->
           <p class="LoginForm-terms">
             การดำเนินการต่อแสดงว่าคุณยอมรับข้อตกลงการใช้บริการ
             <a href="policy.html" class="LoginForm-terms-link">นโยบายส่วนตัวของเรา</a>
           </p>
 
         </form>
-      </div><!-- /LoginCard-right -->
+      </div>
 
     </div><!-- /LoginCard -->
 
   </main>
 
 </div><!-- /Page -->
+<script>
+  // ดักจับฟอร์มตอนที่กดปุ่ม Submit
+  document.querySelector('.LoginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // ป้องกันไม่ให้เบราว์เซอร์รีเฟรชไปหน้า JSON ดิบๆ
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      // แอบส่งข้อมูลไปหา Backend หลังบ้าน
+      const response = await fetch('/register.html', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // ถ้าสำเร็จ ให้เก็บ Token ไว้ในระบบ (เอาไว้ยืนยันตัวตอนเข้าหน้าอื่น)
+        localStorage.setItem('token', data.token);
+        
+        alert('สมัครสมาชิกสำเร็จ! กำลังพาท่านเข้าสู่ระบบ...');
+        
+        // เด้งกลับไปที่หน้าหลัก (แก้ไขชื่อไฟล์หน้าหลักได้ตามต้องการ)
+        window.location.href = 'main.html'; 
+      } else {
+        // ถ้าไม่สำเร็จ แจ้งเตือนสาเหตุ
+        alert('เกิดข้อผิดพลาด: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+    }
+  });
+</script>
 <script src="template/api.js"></script>
 <script src="template/login.js"></script>
 </body>
