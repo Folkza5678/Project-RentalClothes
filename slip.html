@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rental Clothes – Order Success</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="template/rental.css" />
+  <link rel="stylesheet" href="template/slip.css" />
+</head>
+<body>
+<div class="Page">
+
+  <header class="SiteHeader">
+    <div class="SiteHeader-top">
+      <a href="main.html" class="SiteHeader-logo">
+        <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" onerror="this.src='https://via.placeholder.com/82x60?text=LOGO'" />
+        <span class="Logo-text">RENTAL CLOTHES</span>
+      </a>
+      <div class="SiteHeader-actions">
+        <a href="faq.html" class="Icon-faq-link" title="FAQ">
+          <img class="Icon-faq" src="images/faq.png" alt="FAQ icon" onerror="this.src='https://via.placeholder.com/41x41?text=?'" />
+        </a>
+        <a href="login.html" class="BtnLogin">
+          <span class="BtnLogin-text">LOGIN</span>
+        </a>
+      </div>
+    </div>
+    <nav class="Navbar">
+      <a href="main.html"      class="NavBtn">HOME</a>
+      <a href="rental.html"    class="NavBtn">RENTAL PRODUCTS</a>
+      <a href="howtorent.html" class="NavBtn">HOW TO RENT</a>
+      <a href="review.html"    class="NavBtn">REVIEW</a>
+      <a href="article.html"   class="NavBtn">ARTICLE</a>
+      <a href="contact.html"   class="NavBtn">CONTACT</a>
+      <a href="gallery.html"   class="NavBtn">GALLERY</a>
+    </nav>
+  </header>
+
+  <div class="Receipt-container">
+    <div class="Receipt-card">
+      
+      <div class="Receipt-header">
+        <div class="Success-mark">✓</div>
+        <h1 class="Receipt-title">คำสั่งซื้อสำเร็จ</h1>
+        <p class="Receipt-order-id" id="orderIdText">Order ID: #ORD-XXXXX</p>
+      </div>
+
+      <div class="Receipt-section">
+        <h2 class="Section-title">ข้อมูลผู้เช่าและการจัดส่ง</h2>
+        <div class="Info-grid">
+          <span class="Info-label">ชื่อลูกค้า:</span>
+          <span id="receiptName">นาย รักดี สุขเสมอ</span>
+          
+          <span class="Info-label">เบอร์ติดต่อ:</span>
+          <span id="receiptPhone">081-999-8888</span>
+
+          <span class="Info-label">ที่อยู่จัดส่ง:</span>
+          <span id="receiptAddress">123/45 ซอยสุขุมวิท 10 แขวงคลองเตย เขตคลองเตย กรุงเทพมหานคร 10110</span>
+        </div>
+      </div>
+
+      <div class="Receipt-section">
+        <h2 class="Section-title">รายการสินค้า</h2>
+        
+        <div class="Item-row">
+          <div class="Item-details">
+            <div class="Item-name" id="receiptProductName">กำลังโหลด...</div>
+            <div class="Item-meta" id="receiptProductMeta">ขนาด: - | ระยะเวลา: - | จำนวน: -</div>
+          </div>
+          <div class="Item-price" id="receiptProductPrice">0 ฿</div>
+        </div>
+
+        <div class="Total-box">
+          <div class="Total-row">
+            <span>ค่าเช่าสุทธิ</span>
+            <span id="receiptSubtotal">0 ฿</span>
+          </div>
+          <div class="Total-row">
+            <span>ค่าจัดส่ง (Kerry Express)</span>
+            <span>100 ฿</span>
+          </div>
+          <div class="Total-row grand-total">
+            <span>ยอดชำระสุทธิ</span>
+            <span id="receiptTotal">0 ฿</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="Terms-box">
+        <strong>ข้อควรระวัง:</strong><br>
+        กรุณาส่งคืนสินค้าภายในกำหนดเวลา หากเกินกำหนดจะมีค่าปรับ 100 บาท/วัน และห้ามนำชุดไปซักทำความสะอาดด้วยตนเองโดยเด็ดขาด
+      </div>
+
+      <div class="Upload-section">
+        <h2 class="Section-title" style="text-align: center;">แจ้งชำระเงิน (แนบสลิป)</h2>
+        <p style="font-size: 14px; color: var(--color-text-muted); margin-bottom: 16px;">
+          กรุณาโอนเงินเข้าบัญชี: ธนาคารกสิกรไทย 123-4-56789-0 (บริษัท เรนทัล โคลทส์ จำกัด)
+        </p>
+
+        <label for="fileInput" class="Upload-box" id="uploadBox">
+          <div class="Upload-text">+ คลิกเพื่ออัปโหลดสลิปโอนเงิน</div>
+          <div class="Upload-subtext">รองรับไฟล์ JPG, PNG, PDF ขนาดไม่เกิน 5MB</div>
+        </label>
+        
+        <input type="file" id="fileInput" accept="image/*" onchange="previewSlip(event)" />
+        <img id="slipPreview" class="Preview-image" alt="Slip Preview" />
+      </div>
+
+      <div class="Action-buttons">
+        <a href="main.html" class="Btn-secondary">กลับสู่หน้าหลัก</a>
+        <button class="Btn-primary" onclick="submitSlip()">ยืนยันการแจ้งชำระเงิน</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // สุ่มเลข Order ID
+  const randomOrder = Math.floor(10000 + Math.random() * 90000);
+  document.getElementById('orderIdText').textContent = `Order ID: #ORD-${randomOrder}`;
+
+  // ดึงพารามิเตอร์ที่ส่งมาจากหน้า Checkout
+  const params = new URLSearchParams(window.location.search);
+  const productName = params.get('name') || 'โปรดเลือกสินค้า';
+  const productPrice = parseInt(params.get('price') || '0', 10);
+  const productSize = params.get('size') || '-';
+  const productDuration = params.get('duration') || '-';
+  const productQty = parseInt(params.get('qty') || '1', 10);
+
+  const shippingFee = 100;
+  const subTotal = productPrice * productQty;
+  const total = subTotal > 0 ? subTotal + shippingFee : 0;
+
+  // เอาข้อมูลมาแสดงผลในบิล
+  document.getElementById('receiptProductName').textContent = productName;
+  document.getElementById('receiptProductMeta').textContent = `ขนาด: ${productSize} | ระยะเวลา: ${productDuration} | จำนวน: ${productQty} ชุด`;
+  document.getElementById('receiptProductPrice').textContent = productPrice.toLocaleString() + ' ฿';
+  
+  document.getElementById('receiptSubtotal').textContent = subTotal.toLocaleString() + ' ฿';
+  document.getElementById('receiptTotal').textContent = total.toLocaleString() + ' ฿';
+});
+
+// ฟังก์ชันแสดงพรีวิวรูปสลิปตอนอัปโหลด
+function previewSlip(event) {
+  const input = event.target;
+  const preview = document.getElementById('slipPreview');
+  const uploadBox = document.getElementById('uploadBox');
+
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      uploadBox.style.display = 'none'; // ซ่อนกล่องอัปโหลดเมื่อมีรูปแล้ว
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// ฟังก์ชันปุ่มยืนยัน
+function submitSlip() {
+  const fileInput = document.getElementById('fileInput');
+  if (fileInput.files.length === 0) {
+    alert("กรุณาแนบสลิปการโอนเงินก่อนกดยืนยันครับ");
+    return;
+  }
+  
+  alert("บันทึกข้อมูลสำเร็จ! แอดมินจะทำการตรวจสอบสลิปและจัดส่งสินค้าให้ท่านโดยเร็วที่สุด");
+  window.location.href = "main.html";
+}
+</script>
+</body>
+</html>

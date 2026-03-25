@@ -183,8 +183,9 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function confirmOrder() {
-  alert("บันทึกข้อมูลและส่งคำสั่งซื้อสำเร็จ! (ส่วนนี้จะนำไปหน้าแจ้งชำระเงินต่อไป)");
-  // window.location.href = "success.html"; 
+  // ดึง URL ปัจจุบันมาแล้วเปลี่ยนแค่ชื่อไฟล์
+  const currentParams = window.location.search;
+  window.location.href = "slip.html" + currentParams; 
 }
 </script>
 </body>

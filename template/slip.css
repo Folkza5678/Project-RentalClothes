@@ -1,0 +1,260 @@
+/* =========================================================
+   success.css – Order Success & Slip Upload Page
+   ========================================================= */
+
+.Receipt-container {
+  max-width: 680px;
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.Receipt-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(17, 78, 114, 0.06);
+}
+
+.Receipt-header {
+  text-align: center;
+  margin-bottom: 32px;
+  border-bottom: 2px dashed var(--color-border);
+  padding-bottom: 24px;
+}
+
+.Success-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #1a7a48;
+  color: white;
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.Receipt-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.Receipt-order-id {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.Receipt-section {
+  margin-bottom: 24px;
+}
+
+.Section-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.Info-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-primary);
+  line-height: 1.5;
+}
+
+.Info-label {
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.Item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.Item-details {
+  flex: 1;
+  padding-right: 16px;
+}
+
+.Item-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+
+.Item-meta {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.Item-price {
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--color-header);
+}
+
+.Total-box {
+  background: #f7fafc;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  border: 1px solid var(--color-border);
+}
+
+.Total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+.Total-row.grand-total {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Upload Section */
+.Upload-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px dashed var(--color-border);
+  text-align: center;
+}
+
+/* แทนที่โค้ด .Upload-box กลุ่มเดิมด้วยชุดนี้ครับ */
+
+.Upload-box {
+  display: block !important; /* บังคับให้เป็นบล็อกเต็มๆ */
+  width: 100% !important; /* กางให้เต็มพื้นที่ */
+  padding: 40px 20px !important; /* เพิ่มพื้นที่ว่างด้านในไม่ให้อึดอัด */
+  border: 2px dashed var(--color-header) !important;
+  background-color: #fcfcfc !important;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto 20px auto; /* จัดให้อยู่กึ่งกลาง */
+  box-sizing: border-box; /* ป้องกันขอบล้น */
+  position: relative;
+  z-index: 1; /* ดันให้อยู่ถูกเลเยอร์ */
+}
+
+.Upload-box:hover {
+  background-color: #f0f4f7 !important;
+}
+
+.Upload-text {
+  display: block;
+  font-size: 16px;
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2; /* ดันตัวหนังสือให้ลอยอยู่บนพื้นหลังเสมอ */
+}
+
+.Upload-subtext {
+  display: block;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  position: relative;
+  z-index: 2;
+}
+
+/* ซ่อน input แบบเด็ดขาดไม่ให้มากวนใจ */
+#fileInput {
+  display: none !important;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+#fileInput {
+  display: none;
+}
+
+.Preview-image {
+  max-width: 100%;
+  max-height: 300px;
+  margin: 16px auto;
+  border-radius: 8px;
+  display: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border: 1px solid var(--color-border);
+}
+
+.Terms-box {
+  background: #fffafa;
+  border-left: 4px solid #c0392b;
+  padding: 12px 16px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #c0392b;
+  line-height: 1.6;
+}
+
+.Action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.Btn-primary, .Btn-secondary {
+  flex: 1;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 900;
+  font-family: var(--font-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.Btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+}
+
+.Btn-primary:hover { opacity: 0.9; }
+
+.Btn-secondary {
+  background: var(--color-white);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.Btn-secondary:hover {
+  background: #f0f4f7;
+  color: var(--color-primary);
+}
+
+@media (max-width: 600px) {
+  .Action-buttons {
+    flex-direction: column-reverse;
+  }
+}
