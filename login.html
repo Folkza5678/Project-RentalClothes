@@ -124,5 +124,38 @@
   </main>
 
 </div><!-- /Page -->
+<script>
+  document.querySelector('.LoginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บรีเฟรช
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/login.html', {
+        method: 'POST',
+        body: formData // ส่งไปแบบ FormData ตรงๆ ได้เลย Flask รับได้!
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        if(data.user) {
+           localStorage.setItem('user', JSON.stringify(data.user));
+        }
+        alert('เข้าสู่ระบบสำเร็จ! 🎉');
+        window.location.href = 'main.html'; // ล็อคอินผ่านแล้วเด้งไปหน้า main
+      } else {
+        alert('เข้าสู่ระบบไม่สำเร็จ: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+    }
+  });
+</script>
+<script src="template/api.js"></script>
+<script src="template/login.js"></script>
 </body>
 </html>
