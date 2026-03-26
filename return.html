@@ -8,123 +8,79 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="template/return.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
-<!-- ══════════════ TOP BAR ══════════════ -->
 <header class="TopBar">
   <a href="main.html" class="TopBar-logo">
     <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
     <span class="Logo-text">RENTAL CLOTHES</span>
   </a>
   <div class="TopBar-actions">
-    <a href="main.html" class="BtnFaq" title="main" style="padding: 0; border: none; background: transparent;">
-  <img src="images/eye.png" alt="main" style="width: 40px; height: 40px; object-fit: contain;" />
-</a>
-    <a href="login.html" class="BtnLogin"><span class="BtnLogin-text">LOGIN</span></a>
+    <a href="main.html" class="BtnFaq" title="main">
+      <img src="images/eye.png" alt="main" style="width: 40px; height: 40px; object-fit: contain;" />
+    </a>
   </div>
 </header>
 
-<!-- ══════════════ LAYOUT ══════════════ -->
 <div class="Layout">
-
-  <!-- ── Sidebar ── -->
   <aside class="Sidebar">
     <div class="Sidebar-profile">
       <div class="Profile-avatar">👤</div>
       <div class="Profile-info">
-        <div class="Profile-name">NAME ADMIN</div>
+        <div class="Profile-name">ADMIN</div>
         <div class="Profile-role">PRODUCTION SUPPORT</div>
       </div>
     </div>
-    <div class="Sidebar-filters">
-      <div class="Filter-label">CATEGORY</div>
-      <select class="Filter-select">
-        <option value="">Select type...</option>
-        <option>Evening Dress</option><option>Thai Costume</option>
-        <option>Suit / Tuxedo</option><option>Cosplay</option>
-      </select>
-      <div class="Filter-label">OCCASION</div>
-      <select class="Filter-select">
-        <option value="">Select occasion...</option>
-        <option>Wedding</option><option>Party</option><option>Ceremony</option>
-      </select>
-    </div>
     <nav class="Sidebar-nav">
-      <a href="admin-dashboard.html"   class="NavItem"><span class="NavItem-icon"></span>DASHBOARD</a>
-      <a href="productmanagement.html" class="NavItem"><span class="NavItem-icon"></span>PRODUCTS</a>
-      <a href="booking.html"           class="NavItem"><span class="NavItem-icon"></span>BOOKING</a>
-      <a href="return.html"            class="NavItem NavItem--active"><span class="NavItem-icon"></span>RETURN</a>
-      <a href="cus.html"   class="NavItem"><span class="NavItem-icon"></span>CUSTOMERS</a>
-      <a href="report.html"     class="NavItem NavItem--last"><span class="NavItem-icon"></span>REPORTS</a>
+      <a href="dashboard.html" class="NavItem">DASHBOARD</a>
+      <a href="productmanagement.html" class="NavItem">PRODUCTS</a>
+      <a href="booking.html" class="NavItem">BOOKING</a>
+      <a href="return.html" class="NavItem NavItem--active">RETURN</a>
+      <a href="cus.html" class="NavItem">CUSTOMERS</a>
+      <a href="report.html" class="NavItem NavItem--last">REPORTS</a>
     </nav>
   </aside>
 
-  <!-- ── Main Content ── -->
   <main class="MainContent">
-
     <div class="PageTitleRow">
       <h1 class="PageTitle">RETURN &amp; QUALITY CONTROL</h1>
     </div>
 
-    <!-- Stat cards -->
     <div class="StatRow">
       <div class="StatCard">
         <div class="StatCard-label">รอรับคืนทั้งหมด</div>
-        <div class="StatCard-value">28</div>
-        <div class="StatCard-sub">รายการ</div>
+        <div class="StatCard-value" id="statRetTotal">0</div>
       </div>
       <div class="StatCard StatCard--pending">
         <div class="StatCard-label">รอตรวจสอบ</div>
-        <div class="StatCard-value">12</div>
-        <div class="StatCard-sub">ต้องดำเนินการ</div>
+        <div class="StatCard-value" id="statRetPending">0</div>
       </div>
       <div class="StatCard StatCard--pass">
         <div class="StatCard-label">ผ่านการตรวจ</div>
-        <div class="StatCard-value">14</div>
-        <div class="StatCard-sub">คืนมัดจำแล้ว</div>
+        <div class="StatCard-value" id="statRetPass">0</div>
       </div>
       <div class="StatCard StatCard--defect">
         <div class="StatCard-label">พบตำหนิ</div>
-        <div class="StatCard-value">4</div>
-        <div class="StatCard-sub">หักค่าปรับ</div>
-      </div>
-      <div class="StatCard StatCard--late">
-        <div class="StatCard-label">ส่งเลท</div>
-        <div class="StatCard-value">6</div>
-        <div class="StatCard-sub">เกินกำหนด</div>
+        <div class="StatCard-value" id="statRetDefect">0</div>
       </div>
     </div>
 
-    <!-- Toolbar -->
     <div class="Toolbar">
       <div class="Toolbar-search">
         <span class="Toolbar-search-icon">🔍</span>
-        <input type="text" class="Toolbar-input" id="searchInput" placeholder="ค้นหาชื่อลูกค้า, เลข Order..." />
+        <input type="text" class="Toolbar-input" id="searchInput" placeholder="ค้นชื่อลูกค้า, เลข Order..." />
       </div>
       <select class="Toolbar-filter" id="filterQC">
         <option value="">ทุกสถานะ QC</option>
-        <option value="pending">รอตรวจสอบ</option>
-        <option value="checking">กำลังตรวจ</option>
-        <option value="pass">ผ่าน</option>
-        <option value="defect">พบตำหนิ</option>
-      </select>
-      <select class="Toolbar-filter" id="filterDeposit">
-        <option value="">สถานะมัดจำ</option>
-        <option value="full">คืนเต็ม</option>
-        <option value="partial">คืนบางส่วน</option>
-        <option value="withheld">ยึดมัดจำ</option>
-        <option value="pending-dep">รอดำเนินการ</option>
+        <option value="shipped">รอตรวจสอบ</option>
+        <option value="received">ผ่านการตรวจ</option>
+        <option value="rejected">พบตำหนิ</option>
       </select>
     </div>
 
-    <!-- Return Table -->
     <div class="TableCard">
-      <div class="TableCard-header">
-        <span class="TableCard-title">รายการสินค้าที่รอคืน</span>
-        <span class="TableCard-count" id="tableCount">แสดง 8 รายการ</span>
-      </div>
-
       <table class="DataTable">
         <thead>
           <tr>
@@ -134,669 +90,39 @@
             <th>วันที่ต้องคืน</th>
             <th>สถานะ QC</th>
             <th>มัดจำ</th>
-            <th>สถานะมัดจำ</th>
             <th style="width:100px">จัดการ</th>
           </tr>
         </thead>
         <tbody id="returnTableBody">
-
-          <!-- Row 1: ส่งเลท + พบตำหนิ -->
-          <tr data-qc="defect" data-deposit="partial">
-            <td><span class="OrderId">#ORD-0085</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">สมหญิง รักดี</span>
-                <span class="CustPhone">081-234-5678</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product2.jpg" alt="" />
-                <div><div class="ProdName">Wedding Dress</div><div class="ProdSize">ไซส์ S</div></div>
-              </div>
-            </td>
-            <td>
-              <div class="DateBadge DateBadge--late">⚠️ 20 มี.ค. 68</div>
-              <div class="LateFine">ล่าช้า 2 วัน → −200 ฿</div>
-            </td>
-            <td><span class="ReturnBadge ReturnBadge--defect"><span class="ReturnBadge-dot"></span>พบตำหนิ</span></td>
-            <td><strong>3,000 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--partial">คืนบางส่วน</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" title="ตรวจสอบ/แก้ไข" onclick="openModal('ORD-0085','Wedding Dress','product2.jpg','S','Dior','ราตรี',3000,true,2)">🔍</button>
-                <button class="BtnAction BtnAction--refund" title="คืนมัดจำ" onclick="openModal('ORD-0085','Wedding Dress','product2.jpg','S','Dior','ราตรี',3000,true,2)">💰</button>
-                <button class="BtnAction BtnAction--flag" title="แจ้งตำหนิ">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 2: ผ่าน คืนเต็ม -->
-          <tr data-qc="pass" data-deposit="full">
-            <td><span class="OrderId">#ORD-0084</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">อนันต์ มีสุข</span>
-                <span class="CustPhone">062-111-2233</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product7.png" alt="" />
-                <div><div class="ProdName">Wedding Suit / Tuxedo</div><div class="ProdSize">ไซส์ L</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">18 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--pass"><span class="ReturnBadge-dot"></span>ผ่าน QC</span></td>
-            <td><strong>3,000 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--full">คืนเต็มจำนวน</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" title="ดูรายละเอียด" onclick="openModal('ORD-0084','Wedding Suit / Tuxedo','product7.png','L','Gucci','สูท',3000,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund" title="รายละเอียดมัดจำ">💰</button>
-                <button class="BtnAction BtnAction--flag" title="แจ้งตำหนิ">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 3: รอตรวจ -->
-          <tr data-qc="pending" data-deposit="pending-dep">
-            <td><span class="OrderId">#ORD-0083</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">พิมพ์ใจ สวยงาม</span>
-                <span class="CustPhone">089-876-5432</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product1.jpg" alt="" />
-                <div><div class="ProdName">Contemporary Thai Dress</div><div class="ProdSize">ไซส์ M</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">22 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--pending"><span class="ReturnBadge-dot"></span>รอตรวจสอบ</span></td>
-            <td><strong>2,000 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--pending">รอดำเนินการ</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" title="เริ่มตรวจ" onclick="openModal('ORD-0083','Contemporary Thai Dress','product1.jpg','M','—','ชุดไทย',2000,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund" title="คืนมัดจำ">💰</button>
-                <button class="BtnAction BtnAction--flag" title="แจ้งตำหนิ">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 4: ส่งเลท คืนบางส่วน -->
-          <tr data-qc="pass" data-deposit="partial">
-            <td><span class="OrderId">#ORD-0082</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">ธนกฤต ใจดี</span>
-                <span class="CustPhone">083-999-0011</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product5.jpg" alt="" />
-                <div><div class="ProdName">Academic Robe KMITL</div><div class="ProdSize">ไซส์ XL</div></div>
-              </div>
-            </td>
-            <td>
-              <div class="DateBadge DateBadge--late">⚠️ 14 มี.ค. 68</div>
-              <div class="LateFine">ล่าช้า 3 วัน → −300 ฿</div>
-            </td>
-            <td><span class="ReturnBadge ReturnBadge--pass"><span class="ReturnBadge-dot"></span>ผ่าน QC</span></td>
-            <td><strong>1,000 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--partial">คืนบางส่วน</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" onclick="openModal('ORD-0082','Academic Robe KMITL','product5.jpg','XL','KMITL','ชุดครุย',1000,false,3)">🔍</button>
-                <button class="BtnAction BtnAction--refund">💰</button>
-                <button class="BtnAction BtnAction--flag">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 5: กำลังตรวจ -->
-          <tr data-qc="checking" data-deposit="pending-dep">
-            <td><span class="OrderId">#ORD-0081</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">วารี สดใส</span>
-                <span class="CustPhone">091-555-6677</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product3.jpg" alt="" />
-                <div><div class="ProdName">Maleficent Costume</div><div class="ProdSize">ไซส์ M</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">21 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--checking"><span class="ReturnBadge-dot"></span>กำลังตรวจ</span></td>
-            <td><strong>500 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--pending">รอดำเนินการ</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" onclick="openModal('ORD-0081','Maleficent Costume','product3.jpg','M','—','Cosplay',500,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund">💰</button>
-                <button class="BtnAction BtnAction--flag">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 6: ยึดมัดจำ ชุดขาด -->
-          <tr data-qc="defect" data-deposit="withheld">
-            <td><span class="OrderId">#ORD-0080</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">นุชนาถ ฟ้าใส</span>
-                <span class="CustPhone">087-321-6549</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product4.jpg" alt="" />
-                <div><div class="ProdName">Jack & Jones CABLE NECK</div><div class="ProdSize">ไซส์ L</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">19 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--defect"><span class="ReturnBadge-dot"></span>พบตำหนิ</span></td>
-            <td><strong>800 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--withheld">❌ ยึดมัดจำ</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" onclick="openModal('ORD-0080','Jack & Jones CABLE NECK','product4.jpg','L','Jack & Jones','เสื้อ',800,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund">💰</button>
-                <button class="BtnAction BtnAction--flag">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 7 -->
-          <tr data-qc="pending" data-deposit="pending-dep">
-            <td><span class="OrderId">#ORD-0079</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">กิตติศักดิ์ แสงทอง</span>
-                <span class="CustPhone">095-741-8520</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product8.jpg" alt="" />
-                <div><div class="ProdName">PROFUOMO LUXURY Jumper</div><div class="ProdSize">ไซส์ M</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">23 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--pending"><span class="ReturnBadge-dot"></span>รอตรวจสอบ</span></td>
-            <td><strong>800 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--pending">รอดำเนินการ</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" onclick="openModal('ORD-0079','PROFUOMO LUXURY Jumper','product8.jpg','M','PROFUOMO','เสื้อ',800,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund">💰</button>
-                <button class="BtnAction BtnAction--flag">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 8 -->
-          <tr data-qc="pass" data-deposit="full">
-            <td><span class="OrderId">#ORD-0078</span></td>
-            <td>
-              <div class="CustCell">
-                <span class="CustName">ศิริพร เพชรงาม</span>
-                <span class="CustPhone">090-123-4567</span>
-              </div>
-            </td>
-            <td>
-              <div class="ProdCell">
-                <img class="ProdThumb" src="images/product6.jpg" alt="" />
-                <div><div class="ProdName">Holkham Classic Shirt</div><div class="ProdSize">ไซส์ S</div></div>
-              </div>
-            </td>
-            <td><div class="DateBadge">17 มี.ค. 68</div></td>
-            <td><span class="ReturnBadge ReturnBadge--pass"><span class="ReturnBadge-dot"></span>ผ่าน QC</span></td>
-            <td><strong>700 ฿</strong></td>
-            <td><span class="DepositBadge DepositBadge--full">✅ คืนเต็ม</span></td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--inspect" onclick="openModal('ORD-0078','Holkham Classic Shirt','product6.jpg','S','Columbia','เสื้อ',700,false,0)">🔍</button>
-                <button class="BtnAction BtnAction--refund">💰</button>
-                <button class="BtnAction BtnAction--flag">🚩</button>
-              </div>
-            </td>
-          </tr>
-
-        </tbody>
+            </tbody>
       </table>
-
-      <div class="Pagination">
-        <span class="PagInfo">หน้า 1 / 3</span>
-        <button class="PagBtn PagBtn--nav">‹</button>
-        <button class="PagBtn PagBtn--active">1</button>
-        <button class="PagBtn">2</button>
-        <button class="PagBtn">3</button>
-        <button class="PagBtn PagBtn--nav">›</button>
-      </div>
     </div>
-
   </main>
 </div>
 
-<!-- ══════════════ MODAL: Return & QC Inspection ══════════════ -->
 <div class="Modal-overlay" id="returnModal">
   <div class="Modal">
-
     <div class="Modal-header">
-      <span class="Modal-title" id="modalTitle">ตรวจรับคืนสินค้า – #ORD-0085</span>
-      <button class="Modal-close" id="btnClose">✕</button>
+      <span class="Modal-title" id="modalTitle">ตรวจรับคืนสินค้า</span>
+      <button class="Modal-close" onclick="closeReturnModal()">✕</button>
     </div>
-
-    <div class="Modal-body">
-
-      <!-- 1. Product banner -->
-      <div class="Section">
-        <div class="Section-title">🛍 สินค้าที่คืน</div>
-        <div class="ReturnBanner">
-          <img class="ReturnBanner-img" id="modalImg" src="images/product2.jpg" alt="" />
-          <div class="ReturnBanner-info">
-            <div class="ReturnBanner-name" id="modalProdName">Wedding Dress</div>
-            <div class="ReturnBanner-meta" id="modalProdMeta">ไซส์ S &nbsp;|&nbsp; Dior &nbsp;|&nbsp; ราตรี</div>
-            <div class="ReturnBanner-dates">
-              <div class="ReturnBanner-date">
-                <div class="ReturnBanner-date-label">วันที่เริ่มเช่า</div>
-                <div class="ReturnBanner-date-val">20 มี.ค. 68</div>
-              </div>
-              <div class="ReturnBanner-date">
-                <div class="ReturnBanner-date-label">กำหนดคืน</div>
-                <div class="ReturnBanner-date-val">23 มี.ค. 68</div>
-              </div>
-              <div class="ReturnBanner-date" id="actualReturnDate">
-                <div class="ReturnBanner-date-label">วันที่คืนจริง</div>
-                <div class="ReturnBanner-date-val ReturnBanner-date-val--late" id="modalActualReturn">25 มี.ค. 68</div>
-              </div>
-            </div>
-          </div>
-          <div class="ReturnBanner-right">
-            <div class="ReturnBanner-deposit" id="modalDeposit">3,000 ฿</div>
-            <div class="ReturnBanner-deposit-label">ค่ามัดจำ</div>
-          </div>
+    <div class="Modal-body" id="modalReturnContent">
         </div>
-
-        <!-- Late fine alert (shown conditionally) -->
-        <div class="LateFineAlert" id="lateFineAlert">
-          <div class="LateFineAlert-icon">⏰</div>
-          <div class="LateFineAlert-text">
-            <div class="LateFineAlert-title">ส่งคืนเกินกำหนด</div>
-            <div class="LateFineAlert-sub" id="lateFineDesc">ล่าช้า 2 วัน — หักค่าปรับ 100 ฿/วัน</div>
-          </div>
-          <div class="LateFineAlert-amount" id="lateFineAmount">−200 ฿</div>
-        </div>
-      </div>
-
-      <!-- 2. QC Checklist -->
-      <div class="Section">
-        <div class="Section-title">🔍 เช็กลิสต์ตรวจสภาพ</div>
-        <div class="QcGrid" id="qcGrid">
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">สภาพผ้าและวัสดุ</div>
-                <div class="QcItem-sub">ไม่มีรอยฉีกขาด, รูพรุน หรือรอยเปื้อนถาวร</div>
-              </div>
-            </div>
-          </label>
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">ซิปและกระดุม</div>
-                <div class="QcItem-sub">ซิปทำงานได้ปกติ กระดุมครบจำนวน ไม่หักหรือหาย</div>
-              </div>
-            </div>
-          </label>
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">ลวดลายและการปักเย็บ</div>
-                <div class="QcItem-sub">ลวดลายครบ ด้ายไม่หลุด การปักเย็บไม่เสียหาย</div>
-              </div>
-            </div>
-          </label>
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">ความสะอาดโดยรวม</div>
-                <div class="QcItem-sub">สะอาด ไม่มีกลิ่น ไม่มีรอยเปื้อน เครื่องสำอาง</div>
-              </div>
-            </div>
-          </label>
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">อุปกรณ์เสริม / อุปกรณ์ประกอบ</div>
-                <div class="QcItem-sub">ครบตามที่ระบุในใบออเดอร์ (เข็มขัด, สร้อย ฯลฯ)</div>
-              </div>
-            </div>
-          </label>
-
-          <label class="QcItem" onclick="toggleQC(this)">
-            <input type="checkbox" />
-            <div style="display:flex;align-items:flex-start;gap:10px;flex:1">
-              <div class="QcItem-box"><span class="QcItem-check">✓</span></div>
-              <div class="QcItem-content">
-                <div class="QcItem-label">ป้ายแบรนด์และป้ายไซส์</div>
-                <div class="QcItem-sub">ป้ายยังคงอยู่ครบ ไม่ถูกตัดหรือฉีกออก</div>
-              </div>
-            </div>
-          </label>
-
-        </div>
-      </div>
-
-      <!-- 3. Defects found -->
-      <div class="Section">
-        <div class="Section-title">⚠️ รายการตำหนิที่พบ</div>
-
-        <div id="defectList">
-          <div class="DefectRow">
-            <div class="DefectRow-icon">🧵</div>
-            <div class="DefectRow-body">
-              <div class="DefectRow-title">ด้ายหลุดบริเวณกระโปรง</div>
-              <div class="DefectRow-desc">บริเวณซับในด้านล่างมีด้ายหลุด ยาวประมาณ 5 ซม.</div>
-            </div>
-            <div class="DefectRow-fine">−300 ฿</div>
-          </div>
-        </div>
-
-        <button class="BtnAddDefect" onclick="openDefectModal()">
-          ＋ เพิ่มตำหนิ
-        </button>
-      </div>
-
-      <!-- 4. Photo evidence -->
-      <div class="Section">
-        <div class="Section-title">📷 รูปหลักฐานสภาพสินค้าคืน</div>
-        <div class="PhotoStrip" id="photoStrip">
-          <div class="PhotoCard">
-            <span class="PhotoCard-icon">📷</span>
-            <span class="PhotoCard-label">อัปโหลดรูป</span>
-            <input type="file" accept="image/*" onchange="addPhoto(this)" />
-          </div>
-          <div class="PhotoCard PhotoCard-filled" style="position:relative">
-            <div style="width:100%;height:100%;background:#dce8f0;display:flex;align-items:center;justify-content:center;font-size:28px">👗</div>
-            <button style="position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:rgba(192,57,43,0.85);color:white;font-size:11px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="this.parentElement.remove()">✕</button>
-          </div>
-          <div class="PhotoCard PhotoCard-filled" style="position:relative">
-            <div style="width:100%;height:100%;background:#dce8f0;display:flex;align-items:center;justify-content:center;font-size:28px">🔍</div>
-            <button style="position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:rgba(192,57,43,0.85);color:white;font-size:11px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="this.parentElement.remove()">✕</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Deposit calculation -->
-      <div class="Section">
-        <div class="Section-title">💰 คำนวณคืนมัดจำ</div>
-        <div class="DepositCalc" id="depositCalc">
-          <div class="DepositCalc-row">
-            <span class="DepositCalc-label">มัดจำทั้งหมด</span>
-            <span class="DepositCalc-val" id="calcDeposit">3,000 ฿</span>
-          </div>
-          <div class="DepositCalc-row" id="calcDefectRow" style="display:none">
-            <span class="DepositCalc-label DepositCalc-label--deduct">หัก – ค่าเสียหาย (ด้ายหลุด)</span>
-            <span class="DepositCalc-val DepositCalc-val--deduct" id="calcDefectAmt">−300 ฿</span>
-          </div>
-          <div class="DepositCalc-row" id="calcLateRow" style="display:none">
-            <span class="DepositCalc-label DepositCalc-label--late" id="calcLateLabel">หัก – ส่งเลท N วัน</span>
-            <span class="DepositCalc-val DepositCalc-val--late" id="calcLateAmt">−0 ฿</span>
-          </div>
-          <div class="DepositCalc-row">
-            <span class="DepositCalc-label" style="font-size:15px;font-weight:900;color:var(--color-primary)">ยอดที่คืนให้ลูกค้า</span>
-            <span class="DepositCalc-val DepositCalc-val--result" id="calcResult">3,000 ฿</span>
-          </div>
-        </div>
-
-        <!-- Refund method -->
-        <div style="margin-top:14px">
-          <div class="FormLabel" style="font-size:12px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">ช่องทางคืนเงิน</div>
-          <div class="RefundMethods">
-            <label class="RefundMethod" onclick="selectRefund(this)">
-              <input type="radio" name="refund" value="transfer" />
-              <span class="RefundMethod-icon">🏦</span> โอนธนาคาร
-            </label>
-            <label class="RefundMethod" onclick="selectRefund(this)">
-              <input type="radio" name="refund" value="promptpay" />
-              <span class="RefundMethod-icon">📱</span> พร้อมเพย์
-            </label>
-            <label class="RefundMethod" onclick="selectRefund(this)">
-              <input type="radio" name="refund" value="cash" />
-              <span class="RefundMethod-icon">💵</span> เงินสด
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Notes -->
-      <div class="Section">
-        <div class="Section-title">📝 หมายเหตุเพิ่มเติม</div>
-        <textarea class="NotesInput" placeholder="บันทึกเพิ่มเติมจากการตรวจสอบ เช่น สภาพสินค้าโดยรวม, คำแนะนำในการซัก/ซ่อม..."></textarea>
-      </div>
-
-    </div><!-- /Modal-body -->
-
     <div class="Modal-footer">
-      <div class="Modal-footer-left">
-        <button class="BtnDanger">🚩 ยึดมัดจำทั้งหมด</button>
-        <button class="BtnSecondary" id="btnClose2">ปิด</button>
-      </div>
-      <button class="BtnConfirmReturn" onclick="confirmReturn()">
-        ✅ ยืนยันรับคืน &amp; คืนมัดจำ
+      <button class="BtnSecondary" onclick="closeReturnModal()">ปิด</button>
+      <button class="BtnConfirmReturn" id="btnConfirmAction" style="background-color: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        ✅ ยืนยันรับคืน
       </button>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════ DEFECT ADD MODAL ══════════════ -->
-<div class="DefectModal" id="defectModal">
-  <div class="DefectModal-box">
-    <div class="DefectModal-title">⚠️ เพิ่มรายการตำหนิ</div>
-    <div class="DefectModal-grid">
-      <div class="FormGroup">
-        <label class="FormLabel">ประเภทตำหนิ</label>
-        <select class="FormControl" id="defectType">
-          <option value="">เลือกประเภท...</option>
-          <option>รอยเปื้อน</option>
-          <option>รอยฉีกขาด</option>
-          <option>ด้ายหลุด / ตะเข็บหลุด</option>
-          <option>กระดุมหาย / หัก</option>
-          <option>ซิปชำรุด</option>
-          <option>ป้ายหาย</option>
-          <option>อุปกรณ์เสริมหาย</option>
-          <option>อื่นๆ</option>
-        </select>
-      </div>
-      <div class="FormGroup">
-        <label class="FormLabel">รายละเอียด</label>
-        <input type="text" class="FormControl" id="defectDesc" placeholder="อธิบายตำแหน่งและความรุนแรง..." />
-      </div>
-      <div class="FormGroup">
-        <label class="FormLabel">ค่าปรับ (฿)</label>
-        <input type="number" class="FormControl" id="defectFine" placeholder="0" min="0" />
-      </div>
-    </div>
-    <div class="DefectModal-footer">
-      <button class="BtnCancel" onclick="closeDefectModal()">ยกเลิก</button>
-      <button class="BtnAdd" onclick="addDefect()">＋ เพิ่มตำหนิ</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ SCRIPT ══════════════ -->
+<script src="template/api.js"></script>
+<script src="template/return-admin.js"></script>
 <script>
-(function () {
-
-  /* ── Search & filter ── */
-  document.getElementById('searchInput').addEventListener('input', filter);
-  document.getElementById('filterQC').addEventListener('change', filter);
-  document.getElementById('filterDeposit').addEventListener('change', filter);
-
-  function filter() {
-    const q   = document.getElementById('searchInput').value.toLowerCase();
-    const qc  = document.getElementById('filterQC').value;
-    const dep = document.getElementById('filterDeposit').value;
-    let count = 0;
-    document.querySelectorAll('#returnTableBody tr').forEach(row => {
-      const text  = row.textContent.toLowerCase();
-      const rowQC = row.dataset.qc || '';
-      const rowDep= row.dataset.deposit || '';
-      const show  = (!q || text.includes(q)) && (!qc || rowQC === qc) && (!dep || rowDep === dep);
-      row.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    document.getElementById('tableCount').textContent = `แสดง ${count} รายการ`;
+  function closeReturnModal() { 
+    document.getElementById('returnModal').classList.remove('open'); 
   }
-
-  /* ── QC checklist toggle ── */
-  window.toggleQC = function (label) {
-    label.classList.toggle('checked');
-    const cb = label.querySelector('input[type="checkbox"]');
-    if (cb) cb.checked = label.classList.contains('checked');
-    updateCalc();
-  };
-
-  /* ── Modal open ── */
-  let currentDeposit = 3000, currentLate = 0, defects = [];
-
-  window.openModal = function (ordId, name, img, size, brand, cat, deposit, hasLate, lateDays) {
-    currentDeposit = deposit;
-    currentLate    = lateDays * 100;
-    defects        = [];
-
-    document.getElementById('modalTitle').textContent    = `ตรวจรับคืนสินค้า – #${ordId}`;
-    document.getElementById('modalImg').src              = `images/${img}`;
-    document.getElementById('modalProdName').textContent = name;
-    document.getElementById('modalProdMeta').textContent = `ไซส์ ${size}  |  ${brand}  |  ${cat}`;
-    document.getElementById('modalDeposit').textContent  = deposit.toLocaleString() + ' ฿';
-    document.getElementById('calcDeposit').textContent   = deposit.toLocaleString() + ' ฿';
-
-    const lateAlert = document.getElementById('lateFineAlert');
-    if (hasLate || lateDays > 0) {
-      lateAlert.style.display = 'flex';
-      document.getElementById('lateFineDesc').textContent   = `ล่าช้า ${lateDays} วัน — หักค่าปรับ 100 ฿/วัน`;
-      document.getElementById('lateFineAmount').textContent  = `−${(lateDays*100).toLocaleString()} ฿`;
-      document.getElementById('modalActualReturn').textContent = lateDays > 0 ? `⚠️ เลทจริง` : '23 มี.ค. 68';
-      document.getElementById('calcLateRow').style.display  = '';
-      document.getElementById('calcLateLabel').textContent   = `หัก – ส่งเลท ${lateDays} วัน (100 ฿/วัน)`;
-      document.getElementById('calcLateAmt').textContent     = `−${(lateDays*100).toLocaleString()} ฿`;
-    } else {
-      lateAlert.style.display = 'none';
-      document.getElementById('calcLateRow').style.display = 'none';
-    }
-
-    document.getElementById('calcDefectRow').style.display = 'none';
-    updateCalc();
-    document.getElementById('returnModal').classList.add('open');
-  };
-
-  function closeModal() { document.getElementById('returnModal').classList.remove('open'); }
-  document.getElementById('btnClose').addEventListener('click', closeModal);
-  document.getElementById('btnClose2').addEventListener('click', closeModal);
-  document.getElementById('returnModal').addEventListener('click', e => {
-    if (e.target === document.getElementById('returnModal')) closeModal();
-  });
-
-  /* ── Deposit calculator ── */
-  function updateCalc() {
-    const defectTotal = defects.reduce((s, d) => s + d.fine, 0);
-    const resultAmt   = Math.max(0, currentDeposit - defectTotal - currentLate);
-    document.getElementById('calcResult').textContent = resultAmt.toLocaleString() + ' ฿';
-    document.getElementById('calcResult').className   = 'DepositCalc-val ' + (resultAmt === 0 ? 'DepositCalc-val--zero' : 'DepositCalc-val--result');
-    if (defectTotal > 0) {
-      document.getElementById('calcDefectRow').style.display = '';
-      document.getElementById('calcDefectAmt').textContent   = `−${defectTotal.toLocaleString()} ฿`;
-    }
-  }
-
-  /* ── Defect modal ── */
-  window.openDefectModal  = function () { document.getElementById('defectModal').classList.add('open'); };
-  window.closeDefectModal = function () { document.getElementById('defectModal').classList.remove('open'); };
-
-  window.addDefect = function () {
-    const type = document.getElementById('defectType').value;
-    const desc = document.getElementById('defectDesc').value;
-    const fine = parseInt(document.getElementById('defectFine').value) || 0;
-    if (!type) { alert('กรุณาเลือกประเภทตำหนิ'); return; }
-
-    defects.push({ type, desc, fine });
-    const row = document.createElement('div');
-    row.className = 'DefectRow';
-    row.innerHTML = `
-      <div class="DefectRow-icon">⚠️</div>
-      <div class="DefectRow-body">
-        <div class="DefectRow-title">${type}</div>
-        <div class="DefectRow-desc">${desc || '—'}</div>
-      </div>
-      <div class="DefectRow-fine">−${fine.toLocaleString()} ฿</div>`;
-    document.getElementById('defectList').appendChild(row);
-
-    document.getElementById('defectType').value = '';
-    document.getElementById('defectDesc').value = '';
-    document.getElementById('defectFine').value = '';
-    closeDefectModal();
-    updateCalc();
-  };
-
-  /* ── Refund method ── */
-  window.selectRefund = function (label) {
-    document.querySelectorAll('.RefundMethod').forEach(l => l.classList.remove('selected'));
-    label.classList.add('selected');
-  };
-
-  /* ── Photo upload ── */
-  window.addPhoto = function (input) {
-    Array.from(input.files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const card = document.createElement('div');
-        card.className = 'PhotoCard PhotoCard-filled';
-        card.style.position = 'relative';
-        card.innerHTML = `<img src="${e.target.result}" alt="proof" style="width:100%;height:100%;object-fit:cover;" />
-          <button style="position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:rgba(192,57,43,0.85);color:white;font-size:11px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="this.parentElement.remove()">✕</button>`;
-        document.getElementById('photoStrip').insertBefore(card, document.getElementById('photoStrip').firstChild);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  /* ── Confirm return ── */
-  window.confirmReturn = function () {
-    const refund = document.querySelector('.RefundMethod.selected');
-    if (!refund) { alert('กรุณาเลือกช่องทางคืนเงิน'); return; }
-    const result = document.getElementById('calcResult').textContent;
-    alert(`✅ บันทึกการรับคืนสำเร็จ!\nยอดคืนมัดจำ: ${result}\nช่องทาง: ${refund.textContent.trim()}`);
-    closeModal();
-  };
-
-})();
 </script>
-
 </body>
 </html>
