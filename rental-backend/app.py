@@ -4,21 +4,23 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-# นำเข้า Controllers และ Middleware
+# นำเข้า Middleware
+from middleware.auth import admin_only
+
+# นำเข้า Controllers
 from routes.auth import auth_bp
 from controllers.dashboardController import get_stats
-from middleware.auth import admin_only
 from controllers.authController import get_me, update_me, login, register
 from controllers.productController import (
     get_products, add_product, get_product_by_id, 
     update_product, delete_product, update_product_status
 )
-
-# ✨ แก้ไขตรงนี้: เพิ่มการนำเข้า get_booking_stats และ get_calendar_bookings
 from controllers.bookingController import (
     get_bookings, get_booking_by_id, update_booking_status,
     get_booking_stats, get_calendar_bookings 
 )
+# ✨ เพิ่มการ Import ของระบบ Return
+from controllers.returnController import get_pending_returns, process_return
 
 load_dotenv()
 
@@ -54,7 +56,7 @@ def handle_profile():
 def dashboard_api():
     return get_stats()
 
-# 👗 [API] จัดการสินค้า (Products)
+# 👗 [API] Products
 @app.route('/api/products', methods=['GET', 'POST'])
 @admin_only
 def handle_products():
@@ -77,19 +79,17 @@ def handle_single_product(id):
 def api_update_product_status(id):
     return update_product_status(id)
 
-# 📅 [API] จัดการการจอง (Bookings)
+# 📅 [API] Bookings
 @app.route('/api/bookings', methods=['GET'])
 @admin_only
 def api_get_bookings():
     return get_bookings()
 
-# ✨ เพิ่ม: ดึงสถิติตัวเลขสำหรับหน้า Booking (ให้เลข 0 หายไป)
 @app.route('/api/bookings/stats', methods=['GET'])
 @admin_only
 def api_get_booking_stats():
     return get_booking_stats()
 
-# ✨ เพิ่ม: ดึงข้อมูลรายการจองลงปฏิทิน
 @app.route('/api/bookings/calendar', methods=['GET'])
 @admin_only
 def api_get_calendar_bookings():
@@ -104,6 +104,17 @@ def api_get_booking_detail(id):
 @admin_only
 def api_update_booking_status(id):
     return update_booking_status(id)
+
+# 🔄 [API] Returns - ✨ จุดที่เพิ่มใหม่เพื่อให้หน้า Return ใช้งานได้
+@app.route('/api/returns', methods=['GET'])
+@admin_only
+def api_get_returns():
+    return get_pending_returns()
+
+@app.route('/api/returns/<int:id>/confirm', methods=['POST'])
+@admin_only
+def api_confirm_return(id):
+    return process_return(id)
 
 @app.route('/api/health')
 def health():
