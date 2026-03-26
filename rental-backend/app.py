@@ -19,8 +19,12 @@ from controllers.bookingController import (
     get_bookings, get_booking_by_id, update_booking_status,
     get_booking_stats, get_calendar_bookings 
 )
-# ✨ เพิ่มการ Import ของระบบ Return
 from controllers.returnController import get_pending_returns, process_return
+
+# ✨ นำเข้า Customer Controllers (เพิ่ม get_customer_by_id และ update_customer_role)
+from controllers.customerController import (
+    get_customers, get_customer_by_id, update_customer_status, update_customer_role
+)
 
 load_dotenv()
 
@@ -105,7 +109,7 @@ def api_get_booking_detail(id):
 def api_update_booking_status(id):
     return update_booking_status(id)
 
-# 🔄 [API] Returns - ✨ จุดที่เพิ่มใหม่เพื่อให้หน้า Return ใช้งานได้
+# 🔄 [API] Returns
 @app.route('/api/returns', methods=['GET'])
 @admin_only
 def api_get_returns():
@@ -115,6 +119,28 @@ def api_get_returns():
 @admin_only
 def api_confirm_return(id):
     return process_return(id)
+
+# 👥 [API] จัดการลูกค้า (Customers)
+@app.route('/api/customers', methods=['GET'])
+@admin_only
+def api_get_customers():
+    return get_customers()
+
+@app.route('/api/customers/<int:id>', methods=['GET'])
+@admin_only
+def api_get_customer_detail(id):
+    return get_customer_by_id(id)
+
+@app.route('/api/customers/<int:id>/blacklist', methods=['PATCH'])
+@admin_only
+def api_toggle_blacklist(id):
+    return update_customer_status(id)
+
+# ✨ เพิ่ม Route สำหรับเปลี่ยน Role (Member/VIP)
+@app.route('/api/customers/<int:id>/role', methods=['PATCH'])
+@admin_only
+def api_update_customer_role(id):
+    return update_customer_role(id)
 
 @app.route('/api/health')
 def health():
