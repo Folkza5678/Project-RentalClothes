@@ -4,788 +4,205 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin – Product Management</title>
+  <script>
+    if (localStorage.getItem('userRole') !== 'admin') window.location.replace('login.html');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="template/productmanagement.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* เพิ่ม CSS เล็กน้อยเพื่อให้ Dropdown ในตารางดูสวยขึ้น */
+    .StatusSelect {
+      padding: 5px 10px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      font-family: 'Hanuman', serif;
+      font-size: 14px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s;
+    }
+    .StatusSelect--available { background-color: #e6fffa; color: #2d3748; border-color: #b2f5ea; }
+    .StatusSelect--booked { background-color: #fffaf0; color: #2d3748; border-color: #fbd38d; }
+    .StatusSelect--washing { background-color: #ebf8ff; color: #2d3748; border-color: #bee3f8; }
+    .StatusSelect--damaged { background-color: #fff5f5; color: #2d3748; border-color: #feb2b2; }
+  </style>
 </head>
 <body>
 
-<!-- ══════════════ TOP BAR ══════════════ -->
 <header class="TopBar">
   <a href="main.html" class="TopBar-logo">
-    <img class="Logo-img" src="images/logo.png" alt="Rental Clothes logo" />
+    <img class="Logo-img" src="images/logo.png" alt="Logo" />
     <span class="Logo-text">RENTAL CLOTHES</span>
   </a>
-  <div class="TopBar-actions">
-    <a href="main.html" class="BtnFaq" title="main" style="padding: 0; border: none; background: transparent;">
-  <img src="images/eye.png" alt="main" style="width: 40px; height: 40px; object-fit: contain;" />
-</a>
-    <a href="login.html" class="BtnLogin">
-      <span class="BtnLogin-text">LOGIN</span>
-    </a>
-  </div>
 </header>
 
-<!-- ══════════════ LAYOUT ══════════════ -->
 <div class="Layout">
-
-  <!-- ── Sidebar ── -->
   <aside class="Sidebar">
     <div class="Sidebar-profile">
       <div class="Profile-avatar">👤</div>
       <div class="Profile-info">
-        <div class="Profile-name">NAME ADMIN</div>
-        <div class="Profile-role">PRODUCTION SUPPORT</div>
+        <div class="Profile-name" id="adminNameDisplay">ADMIN</div>
+        <div class="Profile-role">PRODUCT MANAGER</div>
       </div>
     </div>
-
-    <div class="Sidebar-filters">
-      <div class="Filter-label">CATEGORY</div>
-      <select class="Filter-select">
-        <option value="">Select type...</option>
-        <option value="evening">Evening Dress</option>
-        <option value="thai">Thai Costume</option>
-        <option value="suit">Suit / Tuxedo</option>
-        <option value="cosplay">Cosplay</option>
-        <option value="academic">Academic Gown</option>
-        <option value="shirt">Shirt</option>
-      </select>
-      <div class="Filter-label">OCCASION</div>
-      <select class="Filter-select">
-        <option value="">Select occasion...</option>
-        <option value="wedding">Wedding</option>
-        <option value="party">Party</option>
-        <option value="ceremony">Ceremony</option>
-        <option value="casual">Casual</option>
-      </select>
-    </div>
-
     <nav class="Sidebar-nav">
-      <a href="dashboard.html" class="NavItem">
-        <span class="NavItem-icon"></span>DASHBOARD
-      </a>
-      <a href="productmanagement.html" class="NavItem NavItem--active">
-        <span class="NavItem-icon"></span>PRODUCTS
-      </a>
-      <a href="booking.html" class="NavItem">
-        <span class="NavItem-icon"></span>BOOKING
-      </a>
-      <a href="return.html" class="NavItem">
-        <span class="NavItem-icon"></span>RETURN
-      </a>
-      <a href="cus.html" class="NavItem">
-        <span class="NavItem-icon"></span>CUSTOMERS
-      </a>
-      <a href="report.html" class="NavItem NavItem--last">
-        <span class="NavItem-icon"></span>REPORTS
-      </a>
+      <a href="dashboard.html" class="NavItem">DASHBOARD</a>
+      <a href="productmanagement.html" class="NavItem NavItem--active">PRODUCTS</a>
+      <a href="booking.html" class="NavItem">BOOKING</a>
+      <a href="return.html" class="NavItem">RETURN</a>
+      <a href="cus.html" class="NavItem">CUSTOMERS</a>
+      <a href="report.html" class="NavItem">REPORTS</a>
     </nav>
   </aside>
 
-  <!-- ── Main Content ── -->
   <main class="MainContent">
-
-    <!-- Title row -->
     <div class="PageTitleRow">
       <h1 class="PageTitle">PRODUCT MANAGEMENT</h1>
-      <button class="BtnAddProduct" id="btnOpenModal">
-        <span class="BtnAddProduct-icon">＋</span> เพิ่มสินค้าใหม่
-      </button>
+      <button class="BtnAddProduct" onclick="openProductModal()">＋ เพิ่มสินค้าใหม่</button>
     </div>
 
-    <!-- Stat mini cards -->
     <div class="StatRow">
-      <div class="StatCard StatCard--available">
-        <div class="StatCard-label">พร้อมเช่า</div>
-        <div class="StatCard-value">172</div>
-        <div class="StatCard-sub">Available</div>
-      </div>
-      <div class="StatCard StatCard--booked">
-        <div class="StatCard-label">ถูกจองอยู่</div>
-        <div class="StatCard-value">34</div>
-        <div class="StatCard-sub">Booked</div>
-      </div>
-      <div class="StatCard StatCard--washing">
-        <div class="StatCard-label">ส่งซัก</div>
-        <div class="StatCard-value">28</div>
-        <div class="StatCard-sub">Washing</div>
-      </div>
-      <div class="StatCard StatCard--damaged">
-        <div class="StatCard-label">ชำรุด</div>
-        <div class="StatCard-value">14</div>
-        <div class="StatCard-sub">Damaged</div>
-      </div>
+      <div class="StatCard"><div class="StatCard-label">พร้อมเช่า</div><div class="StatCard-value" id="countAvailable">0</div></div>
+      <div class="StatCard"><div class="StatCard-label">ถูกจอง</div><div class="StatCard-value" id="countBooked">0</div></div>
+      <div class="StatCard"><div class="StatCard-label">ส่งซัก</div><div class="StatCard-value" id="countWashing">0</div></div>
+      <div class="StatCard"><div class="StatCard-label">ชำรุด</div><div class="StatCard-value" id="countDamaged">0</div></div>
     </div>
 
-    <!-- Toolbar -->
-    <div class="Toolbar">
-      <div class="Toolbar-search">
-        <span class="Toolbar-search-icon">🔍</span>
-        <input type="text" class="Toolbar-input" placeholder="ค้นหาชื่อชุด, แบรนด์..." id="searchInput" />
-      </div>
-      <select class="Toolbar-filter" id="filterCategory">
-        <option value="">ทุกหมวดหมู่</option>
-        <option value="evening">ราตรี</option>
-        <option value="thai">ชุดไทย</option>
-        <option value="suit">สูท</option>
-        <option value="cosplay">Cosplay</option>
-        <option value="academic">ชุดครุย</option>
-        <option value="shirt">เสื้อ</option>
-      </select>
-      <select class="Toolbar-filter" id="filterStatus">
-        <option value="">ทุกสถานะ</option>
-        <option value="available">พร้อมเช่า</option>
-        <option value="booked">ถูกจองอยู่</option>
-        <option value="washing">ส่งซัก</option>
-        <option value="damaged">ชำรุด</option>
-      </select>
-      <select class="Toolbar-filter" id="filterBrand">
-        <option value="">ทุกแบรนด์</option>
-        <option value="columbia">Columbia</option>
-        <option value="adidas">Adidas</option>
-        <option value="nike">Nike</option>
-        <option value="gucci">Gucci</option>
-        <option value="dior">Dior</option>
-        <option value="puma">Puma</option>
-      </select>
-    </div>
-
-    <!-- Product Table -->
     <div class="TableCard">
-      <div class="TableCard-header">
-        <span class="TableCard-title">รายการสินค้าทั้งหมด</span>
-        <span class="TableCard-count" id="countLabel">แสดง 8 รายการ</span>
-      </div>
-
-      <table class="DataTable" id="productTable">
+      <table class="DataTable">
         <thead>
           <tr>
-            <th style="width:48px">#</th>
+            <th>#</th>
             <th>รูป / ชื่อชุด</th>
-            <th>หมวดหมู่</th>
-            <th>แบรนด์</th>
-            <th>ไซส์</th>
-            <th>สถานะ</th>
-            <th>ค่าเช่า / มัดจำ</th>
-            <th style="width:100px">จัดการ</th>
+            <th>หมวดหมู่ / โอกาส</th>
+            <th>สต็อก</th>
+            <th>สถานะ (เปลี่ยนได้)</th>
+            <th>ค่าเช่า</th>
+            <th>จัดการ</th>
           </tr>
         </thead>
         <tbody id="productTableBody">
-
-          <!-- Row 1 -->
-          <tr data-category="thai" data-status="available" data-brand="columbia"
-              data-name="Contemporary Thai Dress: White Lace Top & Red Gold-Thread Sarong">
-            <td>001</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product1.jpg" alt="Thai Dress" />
-                <div>
-                  <div class="Prod-name">Contemporary Thai Dress: White Lace</div>
-                  <div class="Prod-brand">No Brand</div>
-                </div>
-              </div>
-            </td>
-            <td>ชุดไทย</td>
-            <td>—</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">S</span>
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--available">
-                <span class="StatusBadge-dot"></span>พร้อมเช่า
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">4,500 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">6,500 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>2,000 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 2 -->
-          <tr data-category="evening" data-status="booked" data-brand="dior"
-              data-name="Wedding Dress">
-            <td>002</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product2.jpg" alt="Wedding Dress" />
-                <div>
-                  <div class="Prod-name">Wedding Dress</div>
-                  <div class="Prod-brand">Dior</div>
-                </div>
-              </div>
-            </td>
-            <td>ราตรี</td>
-            <td>Dior</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">XS</span>
-                <span class="SizePill">S</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--booked">
-                <span class="StatusBadge-dot"></span>ถูกจองอยู่
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">5,000 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">8,000 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>3,000 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 3 -->
-          <tr data-category="cosplay" data-status="available" data-brand="columbia"
-              data-name="Maleficent Costume: High-Collar Satin Gown with Iconic Horns">
-            <td>003</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product3.jpg" alt="Maleficent Costume" />
-                <div>
-                  <div class="Prod-name">Maleficent Costume: Satin Gown</div>
-                  <div class="Prod-brand">No Brand</div>
-                </div>
-              </div>
-            </td>
-            <td>Cosplay</td>
-            <td>—</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-                <span class="SizePill">XL</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--available">
-                <span class="StatusBadge-dot"></span>พร้อมเช่า
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">500 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">800 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>500 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 4 -->
-          <tr data-category="shirt" data-status="washing" data-brand="adidas"
-              data-name="Jack & Jones PREMIUM CABLE ROLL NECK Jumper">
-            <td>004</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product4.jpg" alt="Jack Jones Jumper" />
-                <div>
-                  <div class="Prod-name">Jack &amp; Jones CABLE ROLL NECK</div>
-                  <div class="Prod-brand">Jack &amp; Jones</div>
-                </div>
-              </div>
-            </td>
-            <td>เสื้อ</td>
-            <td>Jack &amp; Jones</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">S</span>
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-                <span class="SizePill">XL</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--washing">
-                <span class="StatusBadge-dot"></span>ส่งซัก
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">1,059 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">1,500 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>800 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 5 -->
-          <tr data-category="academic" data-status="available" data-brand="columbia"
-              data-name="King Mongkut's Institute Traditional Robes in Institutional Scarlet">
-            <td>005</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product5.jpg" alt="Academic Robes" />
-                <div>
-                  <div class="Prod-name">KMITL Traditional Robes Scarlet</div>
-                  <div class="Prod-brand">KMITL Official</div>
-                </div>
-              </div>
-            </td>
-            <td>ชุดครุย</td>
-            <td>KMITL</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">S</span>
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-                <span class="SizePill">XL</span>
-                <span class="SizePill">XXL</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--available">
-                <span class="StatusBadge-dot"></span>พร้อมเช่า
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">1,200 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">1,800 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>1,000 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 6 -->
-          <tr data-category="shirt" data-status="damaged" data-brand="columbia"
-              data-name="Holkham Classic Shirt">
-            <td>006</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product6.jpg" alt="Holkham Shirt" />
-                <div>
-                  <div class="Prod-name">Holkham Classic Shirt</div>
-                  <div class="Prod-brand">Columbia</div>
-                </div>
-              </div>
-            </td>
-            <td>เสื้อ</td>
-            <td>Columbia</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--damaged">
-                <span class="StatusBadge-dot"></span>ชำรุด
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">990 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">1,400 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>700 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 7 -->
-          <tr data-category="suit" data-status="available" data-brand="gucci"
-              data-name="Wedding Suit / Tuxedo">
-            <td>007</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product7.png" alt="Tuxedo" />
-                <div>
-                  <div class="Prod-name">Wedding Suit / Tuxedo</div>
-                  <div class="Prod-brand">Gucci</div>
-                </div>
-              </div>
-            </td>
-            <td>สูท</td>
-            <td>Gucci</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-                <span class="SizePill">XL</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--available">
-                <span class="StatusBadge-dot"></span>พร้อมเช่า
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">4,990 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">7,500 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>3,000 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 8 -->
-          <tr data-category="shirt" data-status="available" data-brand="adidas"
-              data-name="PROFUOMO THE LUXURY BASIC Jumper grey blue">
-            <td>008</td>
-            <td>
-              <div class="Prod-cell">
-                <img class="Prod-thumb" src="images/product8.jpg" alt="PROFUOMO Jumper" />
-                <div>
-                  <div class="Prod-name">PROFUOMO THE LUXURY BASIC Jumper</div>
-                  <div class="Prod-brand">PROFUOMO</div>
-                </div>
-              </div>
-            </td>
-            <td>เสื้อ</td>
-            <td>PROFUOMO</td>
-            <td>
-              <div class="SizePills">
-                <span class="SizePill">S</span>
-                <span class="SizePill">M</span>
-                <span class="SizePill">L</span>
-              </div>
-            </td>
-            <td>
-              <span class="StatusBadge StatusBadge--available">
-                <span class="StatusBadge-dot"></span>พร้อมเช่า
-              </span>
-            </td>
-            <td>
-              <div class="PriceGroup">
-                <div class="PriceRow"><span class="PriceTag">3วัน</span><span class="PriceVal">1,090 ฿</span></div>
-                <div class="PriceRow"><span class="PriceTag">7วัน</span><span class="PriceVal">1,600 ฿</span></div>
-                <div class="PriceDeposit">มัดจำ <span>800 ฿</span></div>
-              </div>
-            </td>
-            <td>
-              <div class="ActionGroup">
-                <button class="BtnAction BtnAction--edit" title="แก้ไข" onclick="openEdit(this)">✏️</button>
-                <button class="BtnAction BtnAction--status" title="เปลี่ยนสถานะ" onclick="toggleStatus(this)">🔄</button>
-                <button class="BtnAction BtnAction--delete" title="ลบ" onclick="deleteRow(this)">🗑️</button>
-              </div>
-            </td>
-          </tr>
-
-        </tbody>
+            </tbody>
       </table>
-
-      <!-- Pagination -->
-      <div class="Pagination">
-        <span class="PagInfo">หน้า 1 / 3</span>
-        <button class="PagBtn PagBtn--nav">‹</button>
-        <button class="PagBtn PagBtn--active">1</button>
-        <button class="PagBtn">2</button>
-        <button class="PagBtn">3</button>
-        <button class="PagBtn PagBtn--nav">›</button>
-      </div>
     </div>
-
   </main>
 </div>
 
-<!-- ══════════════ MODAL: ADD / EDIT PRODUCT ══════════════ -->
 <div class="Modal-overlay" id="productModal">
   <div class="Modal">
-
-    <div class="Modal-header">
-      <span class="Modal-title" id="modalTitle">เพิ่มสินค้าใหม่</span>
-      <button class="Modal-close" id="btnCloseModal">✕</button>
-    </div>
-
-    <div class="Modal-body">
-      <div class="FormGrid">
-
-        <!-- Image upload -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel">รูปภาพสินค้า <span>*</span></label>
-          <div class="UploadArea" id="uploadArea">
-            <span class="UploadArea-icon">📷</span>
-            <span class="UploadArea-text">คลิกหรือลากไฟล์มาวาง</span>
-            <span class="UploadArea-sub">JPG, PNG, WEBP — สูงสุด 5 รูป</span>
-            <input type="file" accept="image/*" multiple id="fileInput" />
-          </div>
-          <div class="UploadPreview" id="previewArea"></div>
-        </div>
-
-        <!-- Name -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel" for="inputName">ชื่อชุด <span>*</span></label>
-          <input type="text" class="FormControl" id="inputName" placeholder="เช่น Contemporary Thai Dress..." />
-        </div>
-
-        <!-- Category + Brand -->
+    <form id="productForm">
+      <div class="Modal-header">
+        <span class="Modal-title" id="modalTitle">เพิ่มสินค้าใหม่</span>
+        <button type="button" class="Modal-close" onclick="closeProductModal()">✕</button>
+      </div>
+      <div class="Modal-body">
+        <input type="hidden" id="productId"> 
+        
         <div class="FormGroup">
-          <label class="FormLabel" for="inputCategory">หมวดหมู่ <span>*</span></label>
-          <select class="FormControl" id="inputCategory">
-            <option value="">เลือกหมวดหมู่...</option>
-            <option value="evening">ราตรี (Evening Dress)</option>
-            <option value="thai">ชุดไทย</option>
-            <option value="suit">สูท / Tuxedo</option>
-            <option value="cosplay">Cosplay / ละคร</option>
-            <option value="academic">ชุดครุย</option>
-            <option value="shirt">เสื้อ</option>
-            <option value="sweater">เสื้อกันหนาว</option>
-          </select>
+          <label class="FormLabel">รูปภาพสินค้า</label>
+          <input type="file" id="fileInput" name="image" accept="image/*" class="FormControl" onchange="previewImage(this)" />
+          <div id="imagePreview" style="margin-top:10px;"></div>
         </div>
 
         <div class="FormGroup">
-          <label class="FormLabel" for="inputBrand">แบรนด์</label>
-          <input type="text" class="FormControl" id="inputBrand" placeholder="เช่น Gucci, Dior, ไม่มีแบรนด์..." />
+          <label class="FormLabel">ชื่อชุด *</label>
+          <input type="text" id="inputName" name="name" class="FormControl" required />
+        </div>
+        
+        <div class="FormGroup">
+          <label class="FormLabel">คำอธิบาย</label>
+          <textarea id="inputDescription" name="description" class="FormControl" rows="2"></textarea>
         </div>
 
-        <!-- Sizes -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel">ไซส์ที่มี <span>*</span></label>
-          <div class="SizeCheckGroup">
-            <input type="checkbox" class="SizeCheck" id="sz-xs" value="XS"><label class="SizeCheck-label" for="sz-xs">XS</label>
-            <input type="checkbox" class="SizeCheck" id="sz-s"  value="S" ><label class="SizeCheck-label" for="sz-s">S</label>
-            <input type="checkbox" class="SizeCheck" id="sz-m"  value="M" ><label class="SizeCheck-label" for="sz-m">M</label>
-            <input type="checkbox" class="SizeCheck" id="sz-l"  value="L" ><label class="SizeCheck-label" for="sz-l">L</label>
-            <input type="checkbox" class="SizeCheck" id="sz-xl" value="XL"><label class="SizeCheck-label" for="sz-xl">XL</label>
-            <input type="checkbox" class="SizeCheck" id="sz-xxl" value="XXL"><label class="SizeCheck-label" for="sz-xxl">XXL</label>
-            <input type="checkbox" class="SizeCheck" id="sz-free" value="Free Size"><label class="SizeCheck-label" for="sz-free">Free</label>
+        <div class="FormGrid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+          <div class="FormGroup">
+            <label class="FormLabel">หมวดหมู่</label>
+            <select id="inputCategory" name="category" class="FormControl">
+              <option value="thai">ชุดไทย</option>
+              <option value="evening">ราตรี</option>
+              <option value="suit">สูท</option>
+              <option value="cosplay">คอสเพลย์</option>
+            </select>
+          </div>
+          <div class="FormGroup">
+            <label class="FormLabel">โอกาส / งาน</label>
+            <select id="inputOccasion" name="occasion" class="FormControl">
+              <option value="wedding">งานแต่งงาน</option>
+              <option value="party">งานปาร์ตี้</option>
+              <option value="ceremony">งานพิธีการ</option>
+              <option value="casual">งานทั่วไป</option>
+            </select>
+          </div>
+          <div class="FormGroup">
+            <label class="FormLabel">แบรนด์</label>
+            <input type="text" id="inputBrand" name="brand" class="FormControl" />
           </div>
         </div>
 
-        <!-- Status -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel">สถานะสินค้า <span>*</span></label>
-          <div class="StatusRadioGroup">
-            <input type="radio" class="StatusRadio" name="status" id="st-available" value="available" checked />
-            <label class="StatusRadio-label available" for="st-available">
-              <span class="StatusRadio-icon">✅</span>พร้อมเช่า
-            </label>
-
-            <input type="radio" class="StatusRadio" name="status" id="st-booked" value="booked" />
-            <label class="StatusRadio-label booked" for="st-booked">
-              <span class="StatusRadio-icon">📌</span>ถูกจองอยู่
-            </label>
-
-            <input type="radio" class="StatusRadio" name="status" id="st-washing" value="washing" />
-            <label class="StatusRadio-label washing" for="st-washing">
-              <span class="StatusRadio-icon">🧺</span>ส่งซัก
-            </label>
-
-            <input type="radio" class="StatusRadio" name="status" id="st-damaged" value="damaged" />
-            <label class="StatusRadio-label damaged" for="st-damaged">
-              <span class="StatusRadio-icon">⚠️</span>ชำรุด
-            </label>
+        <div class="FormGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+           <div class="FormGroup">
+            <label class="FormLabel">จำนวนในสต็อก (Stock)</label>
+            <input type="number" id="inputStock" name="stock" class="FormControl" value="1" min="0" />
+          </div>
+          <div class="FormGroup">
+            <label class="FormLabel">สถานะเริ่มต้น</label>
+            <select id="inputStatus" name="status" class="FormControl">
+                <option value="available">พร้อมเช่า</option>
+                <option value="booked">ถูกจองอยู่</option>
+                <option value="washing">ส่งซัก</option>
+                <option value="damaged">ชำรุด</option>
+            </select>
           </div>
         </div>
 
-        <!-- Pricing -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel">ค่าเช่า & ค่าประกัน <span>*</span></label>
-          <div class="PriceGrid">
-            <div class="FormGroup">
-              <label class="FormLabel" for="price3d">ราคาเช่า / 3 วัน (฿)</label>
-              <input type="number" class="FormControl" id="price3d" placeholder="0" min="0" />
-            </div>
-            <div class="FormGroup">
-              <label class="FormLabel" for="price7d">ราคาเช่า / 7 วัน (฿)</label>
-              <input type="number" class="FormControl" id="price7d" placeholder="0" min="0" />
-            </div>
-            <div class="FormGroup">
-              <label class="FormLabel" for="priceDeposit">ค่ามัดจำ / ประกัน (฿)</label>
-              <input type="number" class="FormControl" id="priceDeposit" placeholder="0" min="0" />
-            </div>
-          </div>
+        <div class="FormGrid" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
+          <div class="FormGroup"><label>ราคา (รายวัน) *</label><input type="number" id="priceDay" name="price_per_day" class="FormControl" required /></div>
+          <div class="FormGroup"><label>ราคา (3วัน)</label><input type="number" id="price3d" name="price_3d" class="FormControl" /></div>
+          <div class="FormGroup"><label>ราคา (7วัน)</label><input type="number" id="price7d" name="price_7d" class="FormControl" /></div>
+          <div class="FormGroup"><label>มัดจำ *</label><input type="number" id="priceDeposit" name="deposit" class="FormControl" required /></div>
         </div>
 
-        <!-- Notes -->
-        <div class="FormGroup FormGroup--full">
-          <label class="FormLabel" for="inputNotes">หมายเหตุ / รายละเอียดเพิ่มเติม</label>
-          <textarea class="FormControl" id="inputNotes" placeholder="เช่น สีที่มี, วัสดุ, คำแนะนำการใส่..."></textarea>
+        <div class="FormGroup">
+            <label class="FormLabel">ไซส์ที่มี (ระบุเช่น S,M,L)</label>
+            <input type="text" id="inputSizes" name="sizes" class="FormControl" placeholder="S, M, L, XL" />
         </div>
+      </div>
 
-      </div><!-- /FormGrid -->
-    </div><!-- /Modal-body -->
-
-    <div class="Modal-footer">
-      <button class="BtnCancel" id="btnCancelModal">ยกเลิก</button>
-      <button class="BtnSave" id="btnSaveModal">💾 บันทึกสินค้า</button>
-    </div>
-
+      <div class="Modal-footer">
+        <button type="button" class="BtnCancel" onclick="closeProductModal()">ยกเลิก</button>
+        <button type="submit" class="BtnSave">💾 บันทึกข้อมูลสินค้า</button>
+      </div>
+    </form>
   </div>
 </div>
 
-<!-- ══════════════ SCRIPT ══════════════ -->
-<script>
-(function () {
-
-  /* ── Modal open/close ── */
-  const modal       = document.getElementById('productModal');
-  const btnOpen     = document.getElementById('btnOpenModal');
-  const btnClose    = document.getElementById('btnCloseModal');
-  const btnCancel   = document.getElementById('btnCancelModal');
-  const modalTitle  = document.getElementById('modalTitle');
-
-  function openModal(title) {
-    modalTitle.textContent = title || 'เพิ่มสินค้าใหม่';
-    modal.classList.add('open');
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-  }
-
-  btnOpen.addEventListener('click', () => openModal('เพิ่มสินค้าใหม่'));
-  btnClose.addEventListener('click', closeModal);
-  btnCancel.addEventListener('click', closeModal);
-
-  modal.addEventListener('click', function (e) {
-    if (e.target === modal) closeModal();
-  });
-
-  /* ── Edit button ── */
-  window.openEdit = function (btn) {
-    openModal('แก้ไขสินค้า');
-  };
-
-  /* ── Delete row ── */
-  window.deleteRow = function (btn) {
-    if (confirm('ต้องการลบสินค้านี้ออกจากระบบ?')) {
-      btn.closest('tr').style.transition = 'opacity 0.3s';
-      btn.closest('tr').style.opacity = '0';
-      setTimeout(() => btn.closest('tr').remove(), 300);
-      updateCount();
-    }
-  };
-
-  /* ── Status cycle ── */
-  const statusCycle = ['available', 'booked', 'washing', 'damaged'];
-  const statusLabel = { available: 'พร้อมเช่า', booked: 'ถูกจองอยู่', washing: 'ส่งซัก', damaged: 'ชำรุด' };
-
-  window.toggleStatus = function (btn) {
-    const row    = btn.closest('tr');
-    const badge  = row.querySelector('.StatusBadge');
-    let current  = row.dataset.status;
-    let nextIdx  = (statusCycle.indexOf(current) + 1) % statusCycle.length;
-    let next     = statusCycle[nextIdx];
-    row.dataset.status = next;
-    badge.className = `StatusBadge StatusBadge--${next}`;
-    badge.innerHTML = `<span class="StatusBadge-dot"></span>${statusLabel[next]}`;
-  };
-
-  /* ── Search & filter ── */
-  const searchInput      = document.getElementById('searchInput');
-  const filterCategory   = document.getElementById('filterCategory');
-  const filterStatus     = document.getElementById('filterStatus');
-  const filterBrand      = document.getElementById('filterBrand');
-
-  function filterTable() {
-    const q   = searchInput.value.toLowerCase();
-    const cat = filterCategory.value;
-    const st  = filterStatus.value;
-    const br  = filterBrand.value;
-    const rows = document.querySelectorAll('#productTableBody tr');
-    rows.forEach(row => {
-      const name  = (row.dataset.name  || '').toLowerCase();
-      const rcat  = row.dataset.category || '';
-      const rst   = row.dataset.status   || '';
-      const rbr   = row.dataset.brand    || '';
-      const show  =
-        (!q   || name.includes(q))   &&
-        (!cat || rcat === cat)        &&
-        (!st  || rst  === st)         &&
-        (!br  || rbr  === br);
-      row.style.display = show ? '' : 'none';
-    });
-    updateCount();
-  }
-
-  function updateCount() {
-    const visible = document.querySelectorAll('#productTableBody tr:not([style*="display: none"])').length;
-    document.getElementById('countLabel').textContent = `แสดง ${visible} รายการ`;
-  }
-
-  searchInput.addEventListener('input', filterTable);
-  filterCategory.addEventListener('change', filterTable);
-  filterStatus.addEventListener('change', filterTable);
-  filterBrand.addEventListener('change', filterTable);
-
-  /* ── Image upload preview ── */
-  const fileInput   = document.getElementById('fileInput');
-  const previewArea = document.getElementById('previewArea');
-
-  fileInput.addEventListener('change', function () {
-    Array.from(this.files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const wrap = document.createElement('div');
-        wrap.className = 'UploadThumb';
-        wrap.innerHTML = `
-          <img src="${e.target.result}" alt="preview" />
-          <button class="UploadThumb-remove" onclick="this.parentElement.remove()">✕</button>
-        `;
-        previewArea.appendChild(wrap);
-      };
-      reader.readAsDataURL(file);
-    });
-  });
-
-  /* ── Save button (mock) ── */
-  document.getElementById('btnSaveModal').addEventListener('click', function () {
-    alert('บันทึกสินค้าเรียบร้อยแล้ว!');
-    closeModal();
-  });
-
-  updateCount();
-})();
-</script><script src="template/api.js"></script>
 <script src="template/product-management.js"></script>
-
+<script>
+    // ส่วนควบคุม Modal และ Preview รูปภาพ
+    function openProductModal() {
+        editingId = null;
+        document.getElementById('productForm').reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('modalTitle').textContent = 'เพิ่มสินค้าใหม่';
+        document.getElementById('productModal').classList.add('open');
+    }
+    function closeProductModal() { document.getElementById('productModal').classList.remove('open'); }
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result; img.style.width = '80px'; img.style.borderRadius = '5px';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </body>
 </html>

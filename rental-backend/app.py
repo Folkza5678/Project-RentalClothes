@@ -4,28 +4,51 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-# นำเข้า Controllers และ Middleware
+# นำเข้า Middleware
+from middleware.auth import admin_only
+
+# นำเข้า Controllers
 from routes.auth import auth_bp
 from controllers.dashboardController import get_stats
-from middleware.auth import admin_only
 from controllers.authController import get_me, update_me, login, register
+from controllers.productController import (
+    get_products, add_product, get_product_by_id, 
+    update_product, delete_product, update_product_status
+)
+from controllers.bookingController import (
+    get_bookings, get_booking_by_id, update_booking_status,
+    get_booking_stats, get_calendar_bookings, create_booking # ✨ เพิ่ม create_booking
+)
+from controllers.returnController import get_pending_returns, process_return
+
+# นำเข้า Customer Controllers
+from controllers.customerController import (
+    get_customers, get_customer_by_id, update_customer_status, update_customer_role
+)
+
+# นำเข้า Report Controller
+from controllers.reportController import get_report_stats
 
 load_dotenv()
 
 app = Flask(__name__, static_folder='../', static_url_path='')
-# เปิด CORS ให้รองรับการส่ง Token
 CORS(app, supports_credentials=True)
 
-# ตรวจสอบโฟลเดอร์อัปโหลด
-upload_dir = os.getenv('UPLOAD_PATH', 'uploads/')
-if not os.path.exists(upload_dir):
-    os.makedirs(upload_dir, exist_ok=True)
+# ─── SETUP FOLDERS ───
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+IMAGE_FOLDER = os.path.join(BASE_DIR, 'images')
+SLIP_FOLDER = os.path.join(BASE_DIR, 'static/uploads/slips') # ✨ โฟลเดอร์เก็บสลิป
 
-# ลงทะเบียน Blueprint
+# สร้างโฟลเดอร์ถ้ายังไม่มี
+for folder in [IMAGE_FOLDER, SLIP_FOLDER]:
+    if not os.path.exists(folder):
+        os.makedirs(folder, exist_ok=True)
+
 app.register_blueprint(auth_bp)
 
 # ─── API ROUTES ───
 
+# 🔐 Auth
 @app.route('/api/login', methods=['POST'])
 def api_login():
     return login()
@@ -40,54 +63,138 @@ def handle_profile():
         return get_me()
     return update_me()
 
+# 📊 Dashboard
 @app.route('/api/dashboard', methods=['GET'])
 @admin_only
 def dashboard_api():
     return get_stats()
 
+# 👗 Products
+@app.route('/api/products', methods=['GET', 'POST'])
+def handle_products():
+    if request.method == 'GET':
+        return get_products()
+    
+    @admin_only
+    def protected_add():
+        return add_product()
+    return protected_add()
+
+@app.route('/api/products/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def handle_single_product(id):
+    if request.method == 'GET':
+        return get_product_by_id(id)
+    
+    @admin_only
+    def protected_action():
+        if request.method == 'PUT':
+            return update_product(id)
+        elif request.method == 'DELETE':
+            return delete_product(id)
+    return protected_action()
+
+@app.route('/api/products/<int:id>/status', methods=['PATCH'])
+@admin_only
+def api_update_product_status(id):
+    return update_product_status(id)
+
+# 📅 Bookings
+# ✨ สำหรับลูกค้า: กดจองชุดและส่งสลิปจากหน้า slip.html
+@app.route('/api/bookings/create', methods=['POST'])
+def api_create_booking():
+    return create_booking()
+
+# สำหรับแอดมิน: ดูและจัดการการจอง
+@app.route('/api/bookings', methods=['GET'])
+@admin_only
+def api_get_bookings():
+    return get_bookings()
+
+@app.route('/api/bookings/stats', methods=['GET'])
+@admin_only
+def api_get_booking_stats():
+    return get_booking_stats()
+
+@app.route('/api/bookings/calendar', methods=['GET'])
+@admin_only
+def api_get_calendar_bookings():
+    return get_calendar_bookings()
+
+@app.route('/api/bookings/<int:id>', methods=['GET'])
+@admin_only
+def api_get_booking_detail(id):
+    return get_booking_by_id(id)
+
+@app.route('/api/bookings/<int:id>/status', methods=['PATCH'])
+@admin_only
+def api_update_booking_status(id):
+    return update_booking_status(id)
+
+# 🔄 Returns
+@app.route('/api/returns', methods=['GET'])
+@admin_only
+def api_get_returns():
+    return get_pending_returns()
+
+@app.route('/api/returns/<int:id>/confirm', methods=['POST'])
+@admin_only
+def api_confirm_return(id):
+    return process_return(id)
+
+# 👥 Customers
+@app.route('/api/customers', methods=['GET'])
+@admin_only
+def api_get_customers():
+    return get_customers()
+
+@app.route('/api/customers/<int:id>', methods=['GET'])
+@admin_only
+def api_get_customer_detail(id):
+    return get_customer_by_id(id)
+
+@app.route('/api/customers/<int:id>/blacklist', methods=['PATCH'])
+@admin_only
+def api_toggle_blacklist(id):
+    return update_customer_status(id)
+
+@app.route('/api/customers/<int:id>/role', methods=['PATCH'])
+@admin_only
+def api_update_customer_role(id):
+    return update_customer_role(id)
+
+# 📈 Reports & Analytics
+@app.route('/api/reports/stats', methods=['GET'])
+@admin_only
+def api_get_report_stats():
+    return get_report_stats()
+
 @app.route('/api/health')
 def health():
-    return jsonify({
-        'success': True, 
-        'message': 'Rental Clothes API is running 🚀', 
-        'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    })
+    return jsonify({'success': True, 'message': 'Rental Clothes API is running 🚀'})
 
-# ─── STATIC FILES & FRONTEND ───
+# ─── STATIC FILES & IMAGES ───
+
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory(IMAGE_FOLDER, filename)
+
+# ✨ Route สำหรับดูรูปสลิป (เพื่อให้แอดมินเปิดดูได้)
+@app.route('/static/uploads/slips/<path:filename>')
+def serve_slips(filename):
+    return send_from_directory(SLIP_FOLDER, filename)
 
 @app.route('/')
 def index():
-    return send_file('../main.html')
-
-# แก้ไขจุดที่ทำให้ Error 500: แยก Route HTML กับ API ให้ชัดเจน
-@app.route('/login.html', methods=['GET'])
-def serve_login_page():
-    return send_file('../login.html')
-
-@app.route('/register.html', methods=['GET'])
-def serve_register_page():
-    return send_file('../register.html')
-
-@app.route('/dashboard.html', methods=['GET'])
-def serve_dashboard_page():
-    return send_file('../dashboard.html')
+    return send_file(os.path.join(BASE_DIR, 'main.html'))
 
 @app.route('/<path:path>')
-def serve_static(path):
-    # ป้องกันไม่ให้ Static Route ไปทับ API
+def serve_pages(path):
     if path.startswith('api/'):
         return jsonify({'success': False, 'message': 'API not found'}), 404
-
-    # ตรวจสอบไฟล์ในโฟลเดอร์หลัก
-    file_path = os.path.join('..', path)
-    if os.path.exists(file_path):
-        return send_from_directory('../', path)
-    
-    # กรณีหาไม่เจอในโฟลเดอร์หลัก ให้หาใน template/
-    template_path = os.path.join('..', 'template', path)
-    if os.path.exists(template_path):
-        return send_from_directory('../template/', path)
-
+    for folder in ['', 'template', 'static']:
+        full_path = os.path.join(BASE_DIR, folder, path)
+        if os.path.exists(full_path) and os.path.isfile(full_path):
+            return send_from_directory(os.path.join(BASE_DIR, folder), path)
     return jsonify({'success': False, 'message': f'File {path} not found'}), 404
 
 if __name__ == '__main__':
