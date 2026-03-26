@@ -33,7 +33,7 @@
     </div>
     <nav class="Navbar">
       <a href="main.html" class="NavBtn">HOME</a>
-      <a href="rental.html" class="NavBtn">RENTAL PRODUCTS</a>
+      <a href="rental.html" class="NavBtn NavBtn--active">RENTAL PRODUCTS</a>
       <a href="howtorent.html" class="NavBtn">HOW TO RENT</a>
       <a href="review.html" class="NavBtn">REVIEW</a>
       <a href="article.html" class="NavBtn">ARTICLE</a>
@@ -133,7 +133,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 let productPrice = 0;
-let productDeposit = 0; // ✨ ตัวแปรเก็บค่ามัดจำ
+let productDeposit = 0; 
 let finalTotal = 0;
 let startDate = "";
 let endDate = "";
@@ -172,8 +172,6 @@ async function fetchProduct(id, qty) {
         if (result.success) {
             const p = result.data;
             productPrice = Number(p.price_per_day || 0) * qty;
-            
-            // ✨ ดึงค่ามัดจำจาก DB มาคูณกับจำนวนชุด
             productDeposit = Number(p.deposit || 0) * qty;
             
             document.getElementById('summaryName').textContent = p.name;
@@ -182,7 +180,7 @@ async function fetchProduct(id, qty) {
             document.getElementById('txtDeposit').textContent = productDeposit.toLocaleString() + ' ฿';
             document.getElementById('summaryMeta').innerHTML = `จำนวน: ${qty} ชุด`;
             
-            calculateTotal(1); // เริ่มต้นคำนวณที่ 1 วัน
+            calculateTotal(1); 
         }
     } catch (err) { console.error(err); }
 }
@@ -212,8 +210,6 @@ function calculateTotal(days) {
     const extraDays = days - 1;
     const extraPrice = extraDays * 100;
     const shipping = 100;
-    
-    // 💰 ยอดรวมสุทธิ = ค่าเช่าวันแรก + ค่าเช่าวันเพิ่ม + ค่ามัดจำ + ค่าส่ง
     finalTotal = productPrice + extraPrice + productDeposit + shipping;
 
     document.getElementById('txtExtraDays').textContent = extraDays;
@@ -222,6 +218,32 @@ function calculateTotal(days) {
 }
 
 async function confirmOrder() {
+    // ✨ 1. ตรวจสอบข้อมูลเบอร์โทรและที่อยู่
+    const phone = document.getElementById('displayUserPhone').textContent.trim();
+    const address = document.getElementById('displayUserAddress').textContent.trim();
+
+    // เช็คค่าว่างหรือค่าเริ่มต้นที่ระบบแสดงตอนยังไม่มีข้อมูล
+    if (phone === '-' || phone === '' || phone.includes('ยังไม่ได้ระบุ') || 
+        address === '-' || address === '' || address.includes('กำลังโหลด') || address.includes('ยังไม่ได้ระบุ')) {
+        
+        await Swal.fire({
+            icon: 'warning',
+            title: 'ข้อมูลไม่ครบถ้วน',
+            text: 'กรุณาระบุเบอร์โทรศัพท์และที่อยู่จัดส่งให้เรียบร้อยก่อนทำการสั่งเช่าครับ',
+            confirmButtonText: 'ไปแก้ไขข้อมูล',
+            confirmButtonColor: '#114E72',
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // ส่งไปหน้าแก้ไขข้อมูล
+                window.location.href = 'data.html';
+            }
+        });
+        return; // หยุดทำงาน ไม่ให้ไปต่อ
+    }
+
+    // 2. ตรวจสอบปฏิทิน
     if (!startDate || !endDate) {
         return Swal.fire('แจ้งเตือน', 'กรุณาเลือกช่วงเวลาเช่าในปฏิทินก่อนครับ', 'warning');
     }
@@ -241,7 +263,6 @@ async function confirmOrder() {
         const productId = params.get('id');
         const qty = params.get('qty');
         
-        // ✨ ส่งข้อมูลไปยังหน้า Slip (รวมถึงวันที่และยอดมัดจำที่คำนวณแล้ว)
         const url = `slip.html?id=${productId}&qty=${qty}&start=${startDate}&end=${endDate}&total=${finalTotal}&deposit=${productDeposit}`;
         window.location.href = url;
     }
