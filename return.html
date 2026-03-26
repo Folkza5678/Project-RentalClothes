@@ -133,16 +133,19 @@
       <div class="Profile-avatar">👤</div>
       <div class="Profile-info">
         <div class="Profile-name">ADMIN</div>
-        <div class="Profile-role">PRODUCTION SUPPORT</div>
       </div>
     </div>
     <nav class="Sidebar-nav">
-      <a href="dashboard.html" class="NavItem">DASHBOARD</a>
+      <a href="dashboard.html" class="NavItem ">DASHBOARD</a>
       <a href="productmanagement.html" class="NavItem">PRODUCTS</a>
       <a href="booking.html" class="NavItem">BOOKING</a>
       <a href="return.html" class="NavItem NavItem--active">RETURN</a>
       <a href="cus.html" class="NavItem">CUSTOMERS</a>
-      <a href="report.html" class="NavItem NavItem--last">REPORTS</a>
+      <a href="report.html" class="NavItem">REPORTS</a>
+      
+      <a href="#" class="NavItem" id="btnLogout" style="color: #ff4d4d; margin-top: 20px; border-top: 1px solid #444; padding-top: 15px;">
+        LOGOUT
+      </a>
     </nav>
   </aside>
 
@@ -244,5 +247,6 @@
     document.getElementById('returnModal').classList.remove('open');
   }
 </script>
+<script src="user.js"></script>
 </body>
 </html>

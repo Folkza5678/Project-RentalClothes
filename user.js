@@ -7,20 +7,22 @@ function updateAppStatus() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const userName = localStorage.getItem('userName');
     const token = localStorage.getItem('token');
-    const userRole = localStorage.getItem('role'); // ✨ ดึง role มาเช็ค (เช่น 'admin' หรือ 'user')
+    
+    // ✨ เปลี่ยนจาก role เป็น userRole ตามรูป Application Tab ของโฟล์ค
+    const userRole = localStorage.getItem('userRole'); 
     
     // ดึงชื่อไฟล์ปัจจุบันแบบแม่นยำ
     const path = window.location.pathname;
     const currentPage = path.substring(path.lastIndexOf('/') + 1);
 
-    // --- 1. ระบบ Guard (ปรับปรุงใหม่) ---
+    // --- 1. ระบบ Guard (ป้องกันการเข้าหน้า Admin โดยไม่ได้รับอนุญาต) ---
     if (isLoggedIn && token && token !== "undefined" && token !== "") {
         if (currentPage === 'login.html' || currentPage === 'register.html') {
             window.location.replace('main.html');
             return;
         }
     } else {
-        // ถ้าไม่ได้ Login ห้ามเข้าหน้าที่มีข้อมูลส่วนตัว/แอดมิน
+        // ถ้าไม่ได้ Login ห้ามเข้าหน้าเหล่านี้
         const protectedPages = ['data.html', 'dashboard.html', 'return.html', 'report.html', 'productmanagement.html'];
         if (protectedPages.includes(currentPage)) {
             window.location.replace('login.html');
@@ -33,16 +35,18 @@ function updateAppStatus() {
         if (isLoggedIn && userName) {
             authText.textContent = userName;
 
-            // 🚩 เช็คเงื่อนไข: ถ้าเป็น admin ให้ไป dashboard ถ้าไม่ใช่ให้ไป data
+            // 🚩 เช็คเงื่อนไข: ถ้า userRole ในเครื่องเป็น 'admin' ให้ไปหน้า Dashboard
             if (userRole === 'admin') {
                 authBtn.href = "dashboard.html"; 
+                console.log("Logged in as Admin: Redirect to dashboard.html");
             } else {
                 authBtn.href = "data.html";
+                console.log("Logged in as User: Redirect to data.html");
             }
             
-            // สไตล์ปุ่มเมื่อ Login แล้ว
+            // สไตล์ปุ่มเมื่อ Login แล้ว (คงรูปทรงเดิม)
             authBtn.style.backgroundColor = '#ffffff';
-            authBtn.style.color = '#333'; // ปรับสีตัวอักษรให้เห็นชัดบนพื้นขาว
+            authBtn.style.color = '#333'; 
             authBtn.style.display = 'inline-flex';
             authBtn.style.alignItems = 'center';
             authBtn.style.justifyContent = 'center';

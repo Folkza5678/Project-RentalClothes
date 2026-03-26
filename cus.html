@@ -4,8 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin – Customer Management</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
+  
   <link rel="stylesheet" href="template/cus.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <style>
+    /* บังคับฟอนต์ให้ทำงานทุกจุด */
+    body, button, input, select, textarea {
+      font-family: 'Hanuman', serif !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,7 +34,6 @@
       <div class="Profile-avatar">👤</div>
       <div class="Profile-info">
         <div class="Profile-name">ADMIN</div>
-        <div class="Profile-role">PRODUCTION SUPPORT</div>
       </div>
     </div>
     <nav class="Sidebar-nav">
@@ -30,8 +41,12 @@
       <a href="productmanagement.html" class="NavItem">PRODUCTS</a>
       <a href="booking.html" class="NavItem">BOOKING</a>
       <a href="return.html" class="NavItem">RETURN</a>
-      <a href="customers.html" class="NavItem NavItem--active">CUSTOMERS</a>
+      <a href="cus.html" class="NavItem NavItem--active">CUSTOMERS</a>
       <a href="report.html" class="NavItem NavItem--last">REPORTS</a>
+      
+      <a href="javascript:void(0)" onclick="handleLogout()" class="NavItem" style="color: #ff4d4d; border-top: 1px solid rgba(255,255,255,0.2); margin-top: auto;">
+        LOGOUT
+      </a>
     </nav>
   </aside>
 
@@ -41,9 +56,18 @@
     </div>
 
     <div class="StatRow">
-      <div class="StatCard"><div class="StatCard-label">สมาชิกทั้งหมด</div><div class="StatCard-value" id="statCusTotal">0</div></div>
-      <div class="StatCard StatCard--vip"><div class="StatCard-label">VIP</div><div class="StatCard-value" id="statCusVip">0</div></div>
-      <div class="StatCard StatCard--black"><div class="StatCard-label">Blacklist</div><div class="StatCard-value" id="statCusBlack">0</div></div>
+      <div class="StatCard">
+        <div class="StatCard-label">สมาชิกทั้งหมด</div>
+        <div class="StatCard-value" id="statCusTotal">0</div>
+      </div>
+      <div class="StatCard StatCard--vip">
+        <div class="StatCard-label">VIP</div>
+        <div class="StatCard-value" id="statCusVip">0</div>
+      </div>
+      <div class="StatCard StatCard--black">
+        <div class="StatCard-label">Blacklist</div>
+        <div class="StatCard-value" id="statCusBlack">0</div>
+      </div>
     </div>
 
     <div class="TabRow">
@@ -53,19 +77,22 @@
 
     <div class="Panel active" id="panelAll">
       <div class="Toolbar">
-        <input type="text" class="Toolbar-input" id="searchCus" placeholder="ค้นชื่อ, เบอร์..." oninput="loadCustomers()" />
+        <div class="Toolbar-search">
+          <span class="Toolbar-search-icon">🔍</span>
+          <input type="text" class="Toolbar-input" id="searchCus" placeholder="ค้นชื่อลูกค้า, เบอร์โทร..." oninput="loadCustomers()" />
+        </div>
       </div>
       
-      <div class="TableCard" style="margin-top: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-        <table style="width: 100%; border-collapse: collapse;">
+      <div class="TableCard" style="margin-top: 20px;">
+        <table class="DataTable" style="width: 100%;">
           <thead>
-            <tr style="background: #f8fafd; text-align: left; border-bottom: 2px solid #eee;">
-              <th style="padding: 15px;">ลูกค้า</th>
-              <th style="padding: 15px;">เบอร์โทร</th>
-              <th style="padding: 15px;">ระดับ (Role)</th>
-              <th style="padding: 15px;">เช่าแล้ว</th>
-              <th style="padding: 15px;">ยอดสะสม</th>
-              <th style="padding: 15px;">จัดการ</th>
+            <tr>
+              <th>ลูกค้า</th>
+              <th>เบอร์โทร</th>
+              <th>ระดับ (Role)</th>
+              <th>เช่าแล้ว</th>
+              <th>ยอดสะสม</th>
+              <th style="width:100px">จัดการ</th>
             </tr>
           </thead>
           <tbody id="customerGrid"></tbody>
@@ -79,8 +106,9 @@
           <thead>
             <tr>
               <th>ลูกค้า</th>
-              <th>เหตุผล</th>
-              <th>จัดการ</th>
+              <th>เหตุผลที่ติด Blacklist</th>
+              <th>วันที่บันทึก</th>
+              <th style="width:100px">จัดการ</th>
             </tr>
           </thead>
           <tbody id="blacklistBody"></tbody>
@@ -96,24 +124,31 @@
       <span class="Modal-title" id="modalTitle">ข้อมูลลูกค้า</span>
       <button class="Modal-close" onclick="closeCusModal()">✕</button>
     </div>
-    <div class="Modal-body" id="modalCusBody"></div>
+    <div class="Modal-body" id="modalCusBody">
+      </div>
     <div class="Modal-footer">
       <button class="BtnSecondary" onclick="closeCusModal()">ปิด</button>
-      <button class="BtnBlacklist" id="btnBlacklistAction">🚫 ขึ้น Blacklist</button>
+      <button class="BtnBlacklist" id="btnBlacklistAction" style="background:#c0392b; color:white; border:none; padding:10px 20px; border-radius:20px;">🚫 ขึ้น Blacklist</button>
     </div>
   </div>
 </div>
 
 <script src="template/api.js"></script>
 <script src="template/customers-admin.js"></script>
-<script>
+<script src="auth.js"></script> <script>
   function switchTab(tab) {
     document.getElementById('panelAll').classList.toggle('active', tab === 'all');
     document.getElementById('panelBlacklist').classList.toggle('active', tab === 'blacklist');
     document.getElementById('tabAll').classList.toggle('active', tab === 'all');
     document.getElementById('tabBlack').classList.toggle('active', tab === 'blacklist');
+    
+    if(tab === 'blacklist') loadBlacklist(); 
+    else loadCustomers();
   }
-  function closeCusModal() { document.getElementById('customerModal').classList.remove('open'); }
+  
+  function closeCusModal() { 
+    document.getElementById('customerModal').classList.remove('open'); 
+  }
 </script>
 </body>
 </html>
