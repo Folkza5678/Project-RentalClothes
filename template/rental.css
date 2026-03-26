@@ -719,3 +719,34 @@ button { cursor: pointer; border: none; background: none; }
     grid-template-columns: 1fr;
   }
 }
+
+.ProductGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.ProductCard {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ProductCard:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+.ProductCard-img img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.ProductCard-info { padding: 15px; }
+.ProductCard-title { margin: 0; font-size: 1rem; color: #333; }
+.ProductCard-category { color: #888; font-size: 0.85rem; margin: 5px 0; }
+.ProductCard-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.ProductCard-price { font-weight: bold; color: #114E72; font-size: 1.1rem; }
+.BtnRent { background: #114E72; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; }

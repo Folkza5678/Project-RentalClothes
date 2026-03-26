@@ -118,9 +118,13 @@
     event.preventDefault(); 
 
     const form = event.target;
+    const username = form.username.value;
+    const email = form.email.value;
+    const full_name = form.full_name.value;
     const password = form.password.value;
     const confirmPassword = form.confirm_password.value;
 
+    // 1. เช็ครหัสผ่านตรงกันไหม (ฝั่ง Client)
     if (password !== confirmPassword) {
       Swal.fire({
         icon: 'warning',
@@ -131,8 +135,6 @@
       return;
     }
 
-    const formData = new FormData(form);
-
     try {
       Swal.fire({
         title: 'กำลังสร้างบัญชี...',
@@ -140,17 +142,33 @@
         didOpen: () => { Swal.showLoading() }
       });
 
-      const response = await fetch('/register.html', {
+      // 2. ✨ แก้จุดสำคัญ: เปลี่ยนจาก '/register.html' เป็น '/api/register'
+      const response = await fetch('/api/register', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json' // ระบุว่าเป็น JSON
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          full_name: full_name,
+          password: password
+        })
       });
+
+      // 3. เช็คว่า Response เป็น JSON หรือไม่ (ป้องกัน Error 405/500 ที่พ่น HTML กลับมา)
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง (ส่งค่ากลับไม่ใช่ JSON)");
+      }
 
       const data = await response.json();
 
       if (data.success) {
+        // ✅ สมัครสำเร็จ เก็บค่าลง LocalStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userName', form.username.value);
+        localStorage.setItem('userName', username);
 
         Swal.fire({
           icon: 'success',
@@ -159,14 +177,14 @@
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
-          // ✨ ใช้ replace เพื่อล้างประวัติการย้อนกลับ
           window.location.replace('main.html'); 
         });
       } else {
+        // ❌ สมัครไม่สำเร็จ (เช่น Username ซ้ำ)
         Swal.fire({
           icon: 'error',
           title: 'สมัครสมาชิกไม่สำเร็จ',
-          text: data.message,
+          text: data.message || 'ข้อมูลไม่ถูกต้อง',
           confirmButtonColor: '#114e72'
         });
       }
@@ -175,7 +193,8 @@
       Swal.fire({
         icon: 'error',
         title: 'เกิดข้อผิดพลาด',
-        text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้',
+        text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ หรือเซิร์ฟเวอร์มีปัญหา',
+        confirmButtonColor: '#114e72'
       });
     }
   });

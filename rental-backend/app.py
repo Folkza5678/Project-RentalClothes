@@ -26,7 +26,7 @@ from controllers.customerController import (
     get_customers, get_customer_by_id, update_customer_status, update_customer_role
 )
 
-# ✨ นำเข้า Report Controller (เพิ่มใหม่)
+# นำเข้า Report Controller
 from controllers.reportController import get_report_stats
 
 load_dotenv()
@@ -65,23 +65,33 @@ def handle_profile():
 def dashboard_api():
     return get_stats()
 
-# 👗 Products
+# 👗 Products (แก้ไข: แยกสิทธิ์ GET ให้ User ทั่วไปเข้าถึงได้)
 @app.route('/api/products', methods=['GET', 'POST'])
-@admin_only
 def handle_products():
     if request.method == 'GET':
+        # ✅ ปลดล็อก @admin_only เพื่อให้หน้า Rental ดึงข้อมูลไปโชว์ได้
         return get_products()
-    return add_product()
+    
+    # 🔐 สำหรับการเพิ่มสินค้า (POST) ต้องเป็นแอดมินเท่านั้น
+    @admin_only
+    def protected_add():
+        return add_product()
+    return protected_add()
 
 @app.route('/api/products/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-@admin_only
 def handle_single_product(id):
     if request.method == 'GET':
+        # ✅ ปลดล็อกเพื่อให้ User ดูรายละเอียดสินค้าชิ้นนั้นๆ ได้
         return get_product_by_id(id)
-    elif request.method == 'PUT':
-        return update_product(id)
-    elif request.method == 'DELETE':
-        return delete_product(id)
+    
+    # 🔐 สำหรับการแก้ไขและลบ ต้องเป็นแอดมินเท่านั้น
+    @admin_only
+    def protected_action():
+        if request.method == 'PUT':
+            return update_product(id)
+        elif request.method == 'DELETE':
+            return delete_product(id)
+    return protected_action()
 
 @app.route('/api/products/<int:id>/status', methods=['PATCH'])
 @admin_only
@@ -146,7 +156,7 @@ def api_toggle_blacklist(id):
 def api_update_customer_role(id):
     return update_customer_role(id)
 
-# 📈 Reports & Analytics (✨ เพิ่มใหม่)
+# 📈 Reports & Analytics
 @app.route('/api/reports/stats', methods=['GET'])
 @admin_only
 def api_get_report_stats():
