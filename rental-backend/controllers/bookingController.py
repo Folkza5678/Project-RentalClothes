@@ -41,12 +41,18 @@ def create_booking():
             
         file.save(os.path.join(UPLOAD_SLIP_FOLDER, filename))
 
-        # ✅ บันทึกการจอง
+        # ✅ ดึงค่า deposit จาก products ก่อน INSERT
+        cursor.execute("SELECT deposit FROM products WHERE id = ?", (product_id,))
+        product = cursor.fetchone()
+        deposit_amount = product[0] if product else 0  # <-- เพิ่มบรรทัดนี้
+
         cursor.execute("""
             INSERT INTO bookings 
-            (user_id, product_id, size, duration, total_price, slip_image, status, rental_start, rental_end, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-        """, (user_id, product_id, size, duration, total_price, filename, 'pending', rental_start, rental_end))
+            (user_id, product_id, size, duration, total_price, slip_image, 
+             status, rental_start, rental_end, deposit_amount, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        """, (user_id, product_id, size, duration, total_price, filename, 
+              'pending', rental_start, rental_end, deposit_amount))  # <-- เพิ่ม deposit_amount
         
         cursor.execute("UPDATE products SET stock = stock - 1 WHERE id = ? AND stock > 0", (product_id,))
 
@@ -68,17 +74,20 @@ def get_bookings():
     
     # ✨ JOIN products เพื่อเอาค่า deposit จากตาราง products มาแสดงผล
     query = """
-        SELECT 
-            b.*, 
-            p.name as product_name, 
-            p.image_url, 
-            p.deposit AS deposit_amount, 
-            u.username as full_name
-        FROM bookings b
-        JOIN products p ON b.product_id = p.id
-        JOIN users u ON b.user_id = u.id
-        WHERE (u.username LIKE ? OR b.id LIKE ?)
-    """
+    SELECT 
+        b.*,
+        p.name as product_name,
+        p.image_url,
+        CASE WHEN b.deposit_amount > 0 
+             THEN b.deposit_amount 
+             ELSE p.deposit 
+        END AS deposit_amount,
+        u.username as full_name
+    FROM bookings b
+    JOIN products p ON b.product_id = p.id
+    JOIN users u ON b.user_id = u.id
+    WHERE (u.username LIKE ? OR CAST(b.id AS TEXT) LIKE ?)
+"""
     params = [f'%{search}%', f'%{search}%']
     
     if status and status != 'ทุกสถานะ':
@@ -112,14 +121,17 @@ def get_booking_by_id(id):
     try:
         # ✨ ดึงค่า deposit จากตาราง products เช่นกัน
         cursor.execute("""
-            SELECT b.*, p.name as product_name, p.image_url, p.brand, p.category, 
-                   p.deposit AS deposit_amount, 
-                   u.username as full_name, u.phone
-            FROM bookings b
-            JOIN products p ON b.product_id = p.id
-            JOIN users u ON b.user_id = u.id
-            WHERE b.id = ?
-        """, (id,))
+    SELECT b.*, p.name as product_name, p.image_url, p.brand, p.category,
+           CASE WHEN b.deposit_amount > 0 
+                THEN b.deposit_amount 
+                ELSE p.deposit 
+           END AS deposit_amount,
+           u.username as full_name, u.phone
+    FROM bookings b
+    JOIN products p ON b.product_id = p.id
+    JOIN users u ON b.user_id = u.id
+    WHERE b.id = ?
+""", (id,))
         row = cursor.fetchone()
         if row:
             return jsonify({'success': True, 'data': dict(row)})

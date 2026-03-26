@@ -152,6 +152,7 @@ input, select, textarea { font-family: var(--font-main); }
 }
 .StatCard:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(17,78,114,0.12); }
 .StatCard--pending  { border-top-color: var(--s-pending-fg); }
+.StatCard--returned  { border-top-color: #6a1b9a; }
 .StatCard--checking { border-top-color: var(--s-checking-fg); }
 .StatCard--pass     { border-top-color: var(--s-pass-fg); }
 .StatCard--defect   { border-top-color: var(--s-defect-fg); }

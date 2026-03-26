@@ -7,35 +7,42 @@ function updateAppStatus() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const userName = localStorage.getItem('userName');
     const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('role'); // ✨ ดึง role มาเช็ค (เช่น 'admin' หรือ 'user')
     
-    // ดึงชื่อไฟล์ปัจจุบันแบบแม่นยำ (ตัด query string ออก)
+    // ดึงชื่อไฟล์ปัจจุบันแบบแม่นยำ
     const path = window.location.pathname;
     const currentPage = path.substring(path.lastIndexOf('/') + 1);
 
-    // --- 1. ระบบ Guard (ปรับใหม่ให้ไม่เด้งมั่ว) ---
-    // จะเด้งกลับ Main เฉพาะตอนที่มีครบทั้ง "สถานะ=true" และ "มี Token จริงๆ" เท่านั้น
+    // --- 1. ระบบ Guard (ปรับปรุงใหม่) ---
     if (isLoggedIn && token && token !== "undefined" && token !== "") {
         if (currentPage === 'login.html' || currentPage === 'register.html') {
             window.location.replace('main.html');
-            return; // หยุดการทำงานอื่นทันที
+            return;
         }
     } else {
-        // ถ้าไม่มีข้อมูลการ Login ห้ามเข้าหน้า Data
-        if (currentPage === 'data.html') {
+        // ถ้าไม่ได้ Login ห้ามเข้าหน้าที่มีข้อมูลส่วนตัว/แอดมิน
+        const protectedPages = ['data.html', 'dashboard.html', 'return.html', 'report.html', 'productmanagement.html'];
+        if (protectedPages.includes(currentPage)) {
             window.location.replace('login.html');
             return;
         }
     }
 
-    // --- 2. จัดการ UI ปุ่ม (คงรูปทรงเดิม เพิ่มไอคอน) ---
+    // --- 2. จัดการ UI ปุ่ม (แยกหน้าตาม Role) ---
     if (authBtn && authText) {
         if (isLoggedIn && userName) {
             authText.textContent = userName;
-            authBtn.href = "data.html";
+
+            // 🚩 เช็คเงื่อนไข: ถ้าเป็น admin ให้ไป dashboard ถ้าไม่ใช่ให้ไป data
+            if (userRole === 'admin') {
+                authBtn.href = "dashboard.html"; 
+            } else {
+                authBtn.href = "data.html";
+            }
             
-            // เปลี่ยนแค่สี พื้นหลัง และตัวอักษร (ไม่ยุ่งกับความโค้ง/ขนาดปุ่ม)
+            // สไตล์ปุ่มเมื่อ Login แล้ว
             authBtn.style.backgroundColor = '#ffffff';
-            authBtn.style.color = '#fff';
+            authBtn.style.color = '#333'; // ปรับสีตัวอักษรให้เห็นชัดบนพื้นขาว
             authBtn.style.display = 'inline-flex';
             authBtn.style.alignItems = 'center';
             authBtn.style.justifyContent = 'center';
@@ -45,17 +52,17 @@ function updateAppStatus() {
                 const img = document.createElement('img');
                 img.src = 'images/user.png'; 
                 img.className = 'UserIcon';
-                img.style.width = '30px';      // ปรับขนาดให้เล็กลงหน่อยเพื่อความชัวร์
+                img.style.width = '30px';
                 img.style.height = '30px';
                 img.style.marginRight = '8px'; 
-                img.style.flexShrink = '0';    // กันรูปโดนบีบ
+                img.style.flexShrink = '0';
                 authBtn.insertBefore(img, authText);
             }
         } else {
             // สถานะ Logout หรือยังไม่ได้ Login
             authText.textContent = "LOGIN";
             authBtn.href = "login.html";
-            authBtn.style.backgroundColor = ""; // คืนค่าตาม CSS
+            authBtn.style.backgroundColor = ""; 
             authBtn.style.color = "";
             
             const icon = authBtn.querySelector('.UserIcon');

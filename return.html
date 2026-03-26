@@ -9,6 +9,109 @@
   <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="template/return.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- ── Return Page Extra Styles ── -->
+  <style>
+    /* ── Badges ── */
+    .Badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 12px; font-weight: 600; white-space: nowrap;
+    }
+    .Badge--pending  { background:#fff8e1; color:#f57c00; border:1px solid #ffe082; }
+    .Badge--pass     { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+    .Badge--defect   { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+    .Badge--waiting  { background:#e3f2fd; color:#1565c0; border:1px solid #90caf9; }
+    .Badge--returned { background:#f3e5f5; color:#6a1b9a; border:1px solid #ce93d8; }
+
+    /* ── Stat Card clickable & active ── */
+    .StatCard[data-filter] { cursor: pointer; transition: all 0.2s; }
+    .StatCard[data-filter]:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .StatCard--active { outline: 2px solid #114E72; outline-offset: 2px; }
+
+    /* ── Date badges ── */
+    .DateBadge      { font-size: 13px; color: #555; }
+    .DateBadge--late { font-size: 13px; color: #c62828; font-weight: 700; }
+
+    /* ── Deposit amount ── */
+    .DepositAmt { color: #114E72; font-size: 14px; }
+
+    /* ── Action buttons ── */
+    .BtnAction { border: none; background: none; cursor: pointer; font-size: 18px;
+                 padding: 4px 6px; border-radius: 6px; transition: background 0.15s; }
+    .BtnAction:hover { background: #f0f4f8; }
+    .BtnAction--quick { opacity: 0.85; }
+    .BtnAction--quick:hover { background: #e8f5e9; }
+
+    /* ── Table row hover ── */
+    .TableRow:hover { background: #f8fafc; }
+
+    /* ─── Modal Enhancements ─── */
+    .Modal-product {
+      display: flex; gap: 15px;
+      background: #f4f7f9; padding: 15px; border-radius: 10px; margin-bottom: 16px;
+    }
+    .Modal-product-img  { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    .Modal-product-info { flex: 1; }
+    .Modal-product-name { display: block; color: #114E72; font-size: 15px; margin-bottom: 4px; }
+    .Modal-product-meta { font-size: 12px; color: #666; margin-bottom: 2px; }
+    .Modal-late-warning {
+      margin-top: 6px; background: #fff3e0; color: #e65100;
+      padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    }
+
+    /* ── QC Status Selector ── */
+    .QC-StatusSelect { margin-bottom: 14px; }
+    .QC-StatusSelect-label { font-weight: 700; font-size: 13px; color: #333; display: block; margin-bottom: 8px; }
+    .QC-StatusSelect-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+    .QC-Option {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      padding: 10px 8px; border-radius: 10px; border: 2px solid #e0e0e0;
+      background: #fafafa; cursor: pointer; transition: all 0.18s;
+      font-family: inherit;
+    }
+    .QC-Option:hover { border-color: #bbb; background: #f0f0f0; }
+    .QC-Option-icon  { font-size: 22px; }
+    .QC-Option-label { font-size: 12px; font-weight: 600; color: #555; }
+
+    .QC-Option--pending.active  { border-color: #f57c00; background: #fff8e1; }
+    .QC-Option--pending.active .QC-Option-label { color: #e65100; }
+    .QC-Option--pass.active     { border-color: #2e7d32; background: #e8f5e9; }
+    .QC-Option--pass.active .QC-Option-label    { color: #1b5e20; }
+    .QC-Option--defect.active   { border-color: #c62828; background: #ffebee; }
+    .QC-Option--defect.active .QC-Option-label  { color: #b71c1c; }
+
+    /* ── Return Status Toggle ── */
+    .ReturnToggle { margin-bottom: 14px; }
+    .ReturnToggle-label { font-weight: 700; font-size: 13px; color: #333; display: block; margin-bottom: 8px; }
+    .ReturnToggle-options { display: flex; gap: 10px; }
+
+    .ToggleOption {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px; border-radius: 10px; border: 2px solid #e0e0e0;
+      background: #fafafa; cursor: pointer; font-size: 13px; font-weight: 600; color: #666;
+      transition: all 0.18s;
+    }
+    .ToggleOption input[type="radio"] { display: none; }
+    .ToggleOption:hover { border-color: #bbb; }
+    .ToggleOption--waiting.active  { border-color: #1565c0; background: #e3f2fd; color: #1565c0; }
+    .ToggleOption--returned.active { border-color: #6a1b9a; background: #f3e5f5; color: #6a1b9a; }
+
+    /* ── Refund Summary ── */
+    .Refund-Summary {
+      background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 10px;
+      padding: 12px 16px; margin-bottom: 12px;
+    }
+    .Refund-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 5px 0; font-size: 13px; color: #555;
+    }
+    .Refund-row + .Refund-row { border-top: 1px dashed #e0e0e0; }
+    .Refund-row--deduct { color: #c62828; }
+    .Refund-row--total  { font-weight: 700; font-size: 15px; color: #114E72; padding-top: 8px; margin-top: 4px; border-top: 2px solid #dce3ea !important; }
+    .Refund-final { font-size: 18px; color: #2e7d32; }
+  </style>
 </head>
 <body>
 
@@ -19,7 +122,7 @@
   </a>
   <div class="TopBar-actions">
     <a href="main.html" class="BtnFaq" title="main">
-      <img src="images/eye.png" alt="main" style="width: 40px; height: 40px; object-fit: contain;" />
+      <img src="images/eye.png" alt="main" style="width:40px;height:40px;object-fit:contain;" />
     </a>
   </div>
 </header>
@@ -48,38 +151,54 @@
       <h1 class="PageTitle">RETURN &amp; QUALITY CONTROL</h1>
     </div>
 
+    <!-- Stat Cards — คลิกเพื่อ filter ได้ -->
     <div class="StatRow">
       <div class="StatCard">
         <div class="StatCard-label">รอรับคืนทั้งหมด</div>
         <div class="StatCard-value" id="statRetTotal">0</div>
       </div>
-      <div class="StatCard StatCard--pending">
+      <div class="StatCard StatCard--returned" >
+        <div class="StatCard-label">คืนแล้ว</div>
+        <div class="StatCard-value" id="statRetReturned">0</div>
+      </div>
+      <div class="StatCard StatCard--pending" data-filter="shipped" title="คลิกเพื่อกรองรอตรวจสอบ">
         <div class="StatCard-label">รอตรวจสอบ</div>
         <div class="StatCard-value" id="statRetPending">0</div>
       </div>
-      <div class="StatCard StatCard--pass">
+      <div class="StatCard StatCard--pass" data-filter="received" title="คลิกเพื่อกรองผ่านการตรวจ">
         <div class="StatCard-label">ผ่านการตรวจ</div>
         <div class="StatCard-value" id="statRetPass">0</div>
       </div>
-      <div class="StatCard StatCard--defect">
+      <div class="StatCard StatCard--defect" data-filter="rejected" title="คลิกเพื่อกรองพบตำหนิ">
         <div class="StatCard-label">พบตำหนิ</div>
         <div class="StatCard-value" id="statRetDefect">0</div>
       </div>
     </div>
 
+    <!-- Toolbar — 3 filters -->
     <div class="Toolbar">
       <div class="Toolbar-search">
         <span class="Toolbar-search-icon">🔍</span>
         <input type="text" class="Toolbar-input" id="searchInput" placeholder="ค้นชื่อลูกค้า, เลข Order..." />
       </div>
+
+      <!-- Filter: QC Status -->
       <select class="Toolbar-filter" id="filterQC">
         <option value="">ทุกสถานะ QC</option>
-        <option value="shipped">รอตรวจสอบ</option>
-        <option value="received">ผ่านการตรวจ</option>
-        <option value="rejected">พบตำหนิ</option>
+        <option value="shipped">⏳ รอตรวจสอบ</option>
+        <option value="received">✅ ผ่านการตรวจ</option>
+        <option value="rejected">❌ พบตำหนิ</option>
+      </select>
+
+      <!-- Filter: Return Status (ใหม่) -->
+      <select class="Toolbar-filter" id="filterReturn">
+        <option value="">ทุกสถานะคืน</option>
+        <option value="waiting">🕐 รอรับคืน</option>
+        <option value="returned">📦 คืนแล้ว</option>
       </select>
     </div>
 
+    <!-- Table -->
     <div class="TableCard">
       <table class="DataTable">
         <thead>
@@ -89,29 +208,30 @@
             <th>สินค้า</th>
             <th>วันที่ต้องคืน</th>
             <th>สถานะ QC</th>
+            <th>สถานะคืน</th>
             <th>มัดจำ</th>
-            <th style="width:100px">จัดการ</th>
+            <th style="width:90px">จัดการ</th>
           </tr>
         </thead>
-        <tbody id="returnTableBody">
-            </tbody>
+        <tbody id="returnTableBody"></tbody>
       </table>
     </div>
   </main>
 </div>
 
+<!-- Modal -->
 <div class="Modal-overlay" id="returnModal">
   <div class="Modal">
     <div class="Modal-header">
       <span class="Modal-title" id="modalTitle">ตรวจรับคืนสินค้า</span>
       <button class="Modal-close" onclick="closeReturnModal()">✕</button>
     </div>
-    <div class="Modal-body" id="modalReturnContent">
-        </div>
+    <div class="Modal-body" id="modalReturnContent"></div>
     <div class="Modal-footer">
       <button class="BtnSecondary" onclick="closeReturnModal()">ปิด</button>
-      <button class="BtnConfirmReturn" id="btnConfirmAction" style="background-color: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-        ✅ ยืนยันรับคืน
+      <button class="BtnConfirmReturn" id="btnConfirmAction"
+              style="background:#114E72;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;">
+        ✅ บันทึก
       </button>
     </div>
   </div>
@@ -120,8 +240,8 @@
 <script src="template/api.js"></script>
 <script src="template/return-admin.js"></script>
 <script>
-  function closeReturnModal() { 
-    document.getElementById('returnModal').classList.remove('open'); 
+  function closeReturnModal() {
+    document.getElementById('returnModal').classList.remove('open');
   }
 </script>
 </body>

@@ -102,3 +102,9 @@ VALUES (
   '055-555-5555',
   'admin'
 );
+
+UPDATE bookings 
+SET deposit_amount = (
+    SELECT deposit FROM products WHERE products.id = bookings.product_id
+)
+WHERE deposit_amount = 0 OR deposit_amount IS NULL;
