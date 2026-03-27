@@ -722,9 +722,14 @@ __________________________________________________________________________
     
 # ER Diagram
 ![ER Diagram](![alt text](<ER Diagram.png>))
+  
 
 # Use case diagram
 ![Use case diagram]((<![alt text](<use case.png>)>))
+  
+  
+# System Architecture
+![System Architecture](![alt text](<System Architecture.png>))
   
 <br>
 
