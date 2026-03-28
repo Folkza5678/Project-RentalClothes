@@ -277,7 +277,7 @@ __________________________________________________________________________
 <br>
 
 # Activity Diagram
-![Activity Diagram]((<![alt text](<S__350511107.png>)>))
+![Activity Diagram]((<![alt text](<S__350511107.jpg>)>))
   
     
 # ER Diagram
