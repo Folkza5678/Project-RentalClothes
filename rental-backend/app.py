@@ -35,7 +35,7 @@ app = Flask(__name__, static_folder='../', static_url_path='')
 CORS(app, supports_credentials=True)
 
 # ─── SETUP FOLDERS ───
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.getenv("BASE_DIR_OFFSET", "..")))
 IMAGE_FOLDER = os.path.join(BASE_DIR, 'images')
 SLIP_FOLDER = os.path.join(BASE_DIR, 'static/uploads/slips')
 
