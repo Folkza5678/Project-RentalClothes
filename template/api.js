@@ -1,6 +1,6 @@
 // ── ตั้งค่า Base URL ──────────────────────────────────────
 // localhost  → เปลี่ยนเป็น https://yourdomain.com/api เมื่อ deploy
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = 'https://project-rentalclothes-production.up.railway.app/api';
 
 // ── Token helpers ─────────────────────────────────────────
 const Auth = {
