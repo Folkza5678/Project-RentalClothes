@@ -40,7 +40,7 @@ function renderProducts(products) {
 
   grid.innerHTML = products.map(p => {
     const img = p.images?.[0]
-      ? `http://localhost:3000/uploads/${p.images[0]}`
+      ? `https://project-rentalclothes-production.up.railway.app/uploads/${p.images[0]}`
       : 'images/placeholder.jpg';
     const url = `product.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${p.price_per_day}&img=${encodeURIComponent(img)}`;
     return `
